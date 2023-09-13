@@ -131,7 +131,6 @@
     <ClCompile Include="02_Hash.cpp" />
     <ClCompile Include="03_Sliding_window.cpp" />
     <ClCompile Include="04_double_Pointer.cpp" />
-    <ClCompile Include="hhh.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

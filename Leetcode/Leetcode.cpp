@@ -89,15 +89,15 @@ void moveZeroes(vector<int>& nums) {
 
 
 
-int main()
-{
-    vector<int>nums = { 4, 5, 6, 7, 0, 1, 2 };
-    moveZeroes(nums);
-    for (int i = 0; i < nums.size(); i++)
-    {
-        cout << nums[i] << endl;
-    }
-    cout << "Hello World!\n";
-}
+//int main()
+//{
+//    vector<int>nums = { 4, 5, 6, 7, 0, 1, 2 };
+//    moveZeroes(nums);
+//    for (int i = 0; i < nums.size(); i++)
+//    {
+//        cout << nums[i] << endl;
+//    }
+//    cout << "Hello World!\n";
+//}
 
 

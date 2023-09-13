@@ -120,8 +120,8 @@ void sortColors(vector<int>& nums) {
 
 
 /// <summary>
-/// 数组中的第 K 个最大元素
+/// 数组中的第 K 个最大元素--快速排序
 /// </summary>
 int findKthLargest(vector<int>& nums, int k) {
-
+    return 0;
 }
