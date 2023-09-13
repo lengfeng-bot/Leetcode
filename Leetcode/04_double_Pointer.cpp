@@ -81,13 +81,13 @@ int removeDuplicates2(vector<int>& nums) {
 }
 
 
-int main()
-{
-    vector<int>nums = { 1,1,1,2,2,3 };
-    int a = removeDuplicates2(nums);
-    cout << a << endl;
-    return 0;
-}
+//int main()
+//{
+//    vector<int>nums = { 1,1,1,2,2,3 };
+//    int a = removeDuplicates2(nums);
+//    cout << a << endl;
+//    return 0;
+//}
 
 
 /// <summary>
@@ -116,4 +116,12 @@ void sortColors(vector<int>& nums) {
         else
             i++;
     }
+}
+
+
+/// <summary>
+/// 数组中的第 K 个最大元素
+/// </summary>
+int findKthLargest(vector<int>& nums, int k) {
+
 }
