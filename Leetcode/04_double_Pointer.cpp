@@ -125,3 +125,22 @@ void sortColors(vector<int>& nums) {
 int findKthLargest(vector<int>& nums, int k) {
     return 0;
 }
+
+
+
+
+
+
+// Definition for singly-linked list.
+ struct ListNode {
+     int val;
+     ListNode *next;
+     ListNode(int x) : val(x), next(NULL) {}
+ };
+ 
+/// <summary>
+/// ≈–∂œª∑–Œ¡¥±Ì
+/// </summary>
+bool hasCycle(ListNode* head) {
+    return 1;
+}
