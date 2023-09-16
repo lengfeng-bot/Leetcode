@@ -1,4 +1,4 @@
-
+ï»¿
 #include<iostream>
 #include<vector>
 #include<unordered_map>
@@ -8,14 +8,14 @@ using namespace std;
 
 
 /// <summary>
-/// »¬¶¯´°¿ÚµÄËÄÖÖÇé¿ö
+/// æ»‘åŠ¨çª—å£çš„å››ç§æƒ…å†µ
 /// </summary>
-/// 1.Í¬Ïò½»ÌæÒÆ¶¯µÄÁ½¸ö±äÁ¿
+/// 1.åŒå‘äº¤æ›¿ç§»åŠ¨çš„ä¸¤ä¸ªå˜é‡
 
 
 
 /// <summary>
-/// ×ÓÊı×é×î´óÆ½¾ùÊı I
+/// å­æ•°ç»„æœ€å¤§å¹³å‡æ•° I
 /// </summary>
 double findMaxAverage(vector<int>& nums, int k) {
 	int n = nums.size();
@@ -29,9 +29,9 @@ double findMaxAverage(vector<int>& nums, int k) {
 	}
 
 	int maxSum = sum;
-	// »¬¶¯´°¿Ú
+	// æ»‘åŠ¨çª—å£
 	for (b = k; b < n; b++) {
-		sum += nums[b] - nums[a];  // ½«ĞÂÔªËØ¼ÓÈë´°¿Ú£¬Í¬Ê±½«¾ÉÔªËØÒÆ³ö´°¿Ú
+		sum += nums[b] - nums[a];  // å°†æ–°å…ƒç´ åŠ å…¥çª—å£ï¼ŒåŒæ—¶å°†æ—§å…ƒç´ ç§»å‡ºçª—å£
 		maxSum = max(maxSum, sum);
 		a++;
 	}
@@ -51,7 +51,7 @@ double findMaxAverage(vector<int>& nums, int k) {
 
 
 /// <summary>
-/// °®ÉúÆøµÄÊéµêÀÏ°å
+/// çˆ±ç”Ÿæ°”çš„ä¹¦åº—è€æ¿
 /// </summary>
 int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
 
@@ -96,12 +96,12 @@ int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
 //	vector<int>grumpy = { 0,1,0,1,0,1,0,1 };
 //	int minutes = 3;
 //	int ans = maxSatisfied(customers, grumpy, minutes);
-//	cout << "×î´óÂúÒâ¹Ë¿ÍÎª:" << ans << endl;
+//	cout << "æœ€å¤§æ»¡æ„é¡¾å®¢ä¸º:" << ans << endl;
 //}
 
 
 /// <summary>
-/// ¿É»ñµÃµÄ×î´óµãÊı
+/// å¯è·å¾—çš„æœ€å¤§ç‚¹æ•°
 /// </summary>
 int maxScore(vector<int>& cardPoints, int k) {
 	int l = 0;
@@ -135,7 +135,7 @@ int maxScore(vector<int>& cardPoints, int k) {
 
 
 /// <summary>
-/// ¶¨³¤×Ó´®ÖĞÔªÒôµÄ×î´óÊıÄ¿
+/// å®šé•¿å­ä¸²ä¸­å…ƒéŸ³çš„æœ€å¤§æ•°ç›®
 /// </summary>
 int maxVowels(string s, int k) {
 	int n = s.size();
@@ -170,7 +170,7 @@ int maxVowels(string s, int k) {
 
 
 /// <summary>
-/// ½« x ¼õµ½ 0 µÄ×îĞ¡²Ù×÷Êı
+/// å°† x å‡åˆ° 0 çš„æœ€å°æ“ä½œæ•°
 /// </summary>
 /// <param name="nums"></param>
 /// <param name="x"></param>
@@ -182,11 +182,11 @@ int minOperations(vector<int>& nums, int x) {
 		sum += nums[i];
 	}
 	if (x > sum) return -1;
-	int target = sum - x; // ÇóµÃtargetµÄÖµ
+	int target = sum - x; // æ±‚å¾—targetçš„å€¼
 	sum = 0;
 	int ans = -1;
 	int left = 0, right = 0;
-	// Ê¹ÓÃ»¬¶¯´°¿ÚÑ°ÕÒ×î´óµÄĞòÁĞ
+	// ä½¿ç”¨æ»‘åŠ¨çª—å£å¯»æ‰¾æœ€å¤§çš„åºåˆ—
 	for (; right < nums.size(); ++right) {
 		sum += nums[right];
 		while (sum > target) {
@@ -197,7 +197,7 @@ int minOperations(vector<int>& nums, int x) {
 			ans = max(ans, right - left + 1);
 		}
 	}
-	// Èç¹ûÃ»ÕÒµ½£¬Ôò·µ»Ø-1
+	// å¦‚æœæ²¡æ‰¾åˆ°ï¼Œåˆ™è¿”å›-1
 	if (ans == -1) return -1;
 	else return nums.size() - ans;
 
@@ -216,21 +216,21 @@ int minOperations(vector<int>& nums, int x) {
 
 
 
-///»¬¶¯´°¿Ú 2----²»¶¨³¤¶ÈµÄ»¬¶¯´°¿Ú
-//ÏÈË¼¿¼±©Á¦½â·¨£¬·ÖÎö±©Á¦½â·¨µÄÈ±µã£¨Ò»°ã¶øÑÔ±©Á¦½â·¨µÄÈ±µãÊÇÖØ¸´¼ÆËã£©£¬È»ºó ½áºÏÎÊÌâµÄÌØµã£¬Ê¹ÓÃ¡¸Ë«Ö¸Õë¡¹¼¼ÇÉ¶Ô±©Á¦½â·¨½øĞĞ¼ôÖ¦¡£
+///æ»‘åŠ¨çª—å£ 2----ä¸å®šé•¿åº¦çš„æ»‘åŠ¨çª—å£
+//å…ˆæ€è€ƒæš´åŠ›è§£æ³•ï¼Œåˆ†ææš´åŠ›è§£æ³•çš„ç¼ºç‚¹ï¼ˆä¸€èˆ¬è€Œè¨€æš´åŠ›è§£æ³•çš„ç¼ºç‚¹æ˜¯é‡å¤è®¡ç®—ï¼‰ï¼Œç„¶å ç»“åˆé—®é¢˜çš„ç‰¹ç‚¹ï¼Œä½¿ç”¨ã€ŒåŒæŒ‡é’ˆã€æŠ€å·§å¯¹æš´åŠ›è§£æ³•è¿›è¡Œå‰ªæã€‚
 
 
 
 /// <summary>
-/// ×îĞ¡¸²¸Ç×Ö´®
-/// »¬¶¯´°¿Ú¼Ó¹şÏ£±í
+/// æœ€å°è¦†ç›–å­—ä¸²
+/// æ»‘åŠ¨çª—å£åŠ å“ˆå¸Œè¡¨
 /// </summary>
 string minWindow(string s, string t) {
 
-	int left = 0; // »¬¶¯´°¿ÚµÄ×ó±ß½ç
-	int minLen = INT_MAX; // ×îĞ¡¸²¸Ç×ÓÊı×éµÄ³¤¶È
-	int minLeft = 0; // ×îĞ¡¸²¸Ç×ÓÊı×éµÄ×ó±ß½ç
-	int count = t.length(); // µ±Ç°´°¿ÚÄÚĞèÒªÆ¥ÅäµÄ×Ö·ûÊı
+	int left = 0; // æ»‘åŠ¨çª—å£çš„å·¦è¾¹ç•Œ
+	int minLen = INT_MAX; // æœ€å°è¦†ç›–å­æ•°ç»„çš„é•¿åº¦
+	int minLeft = 0; // æœ€å°è¦†ç›–å­æ•°ç»„çš„å·¦è¾¹ç•Œ
+	int count = t.length(); // å½“å‰çª—å£å†…éœ€è¦åŒ¹é…çš„å­—ç¬¦æ•°
 	string result = "";
 
 	unordered_map<char, int>map;
@@ -246,12 +246,12 @@ string minWindow(string s, string t) {
 			}
 		}
 		while (count == 0) {
-			// ¸üĞÂ×îĞ¡¸²¸Ç×ÓÊı×éµÄĞÅÏ¢
+			// æ›´æ–°æœ€å°è¦†ç›–å­æ•°ç»„çš„ä¿¡æ¯
 			if (right - left + 1 < minLen) {
 				minLen = right - left + 1;
 				minLeft = left;
 			}
-			// ËõĞ¡´°¿ÚµÄ×ó±ß½ç£¬³¢ÊÔÕÒµ½¸üĞ¡µÄ¸²¸Ç×ÓÊı×é
+			// ç¼©å°çª—å£çš„å·¦è¾¹ç•Œï¼Œå°è¯•æ‰¾åˆ°æ›´å°çš„è¦†ç›–å­æ•°ç»„
 			if (map.find(s[left]) != map.end()) {
 				map[s[left]]++;
 				if (map[s[left]] > 0) {
@@ -263,10 +263,10 @@ string minWindow(string s, string t) {
 
 	}
 	if (minLen == INT_MAX) {
-		return ""; // Î´ÕÒµ½·ûºÏÌõ¼şµÄ¸²¸Ç×ÓÊı×é£¬·µ»Ø¿Õ×Ö·û´®
+		return ""; // æœªæ‰¾åˆ°ç¬¦åˆæ¡ä»¶çš„è¦†ç›–å­æ•°ç»„ï¼Œè¿”å›ç©ºå­—ç¬¦ä¸²
 	}
 
-	return s.substr(minLeft, minLen); // ·µ»Ø×îĞ¡¸²¸Ç×ÓÊı×éµÄ×Ö·û´®
+	return s.substr(minLeft, minLen); // è¿”å›æœ€å°è¦†ç›–å­æ•°ç»„çš„å­—ç¬¦ä¸²
 }
 
 
@@ -279,10 +279,10 @@ string minWindow(string s, string t) {
 //	string result = minWindow(s, t);
 //
 //	if (result.empty()) {
-//		cout << "Î´ÕÒµ½·ûºÏÌõ¼şµÄ¸²¸Ç×ÓÊı×é" << endl;
+//		cout << "æœªæ‰¾åˆ°ç¬¦åˆæ¡ä»¶çš„è¦†ç›–å­æ•°ç»„" << endl;
 //	}
 //	else {
-//		cout << "×îĞ¡¸²¸Ç×ÓÊı×é£º" << result << endl;
+//		cout << "æœ€å°è¦†ç›–å­æ•°ç»„ï¼š" << result << endl;
 //	}
 //
 //	return 0;
@@ -290,7 +290,7 @@ string minWindow(string s, string t) {
 
 
 /// <summary>
-/// Ìæ»»ºóµÄ×î³¤ÖØ¸´×Ö·û
+/// æ›¿æ¢åçš„æœ€é•¿é‡å¤å­—ç¬¦
 /// </summary>
 int characterReplacement(string s, int k) {
 	
@@ -322,7 +322,7 @@ int characterReplacement(string s, int k) {
 //
 //	int result = characterReplacement(s, k);
 //
-//	cout << "×î³¤ÏàÍ¬×ÖÄ¸×Ó´®µÄ³¤¶ÈÊÇ: " << result << endl;
+//	cout << "æœ€é•¿ç›¸åŒå­—æ¯å­ä¸²çš„é•¿åº¦æ˜¯: " << result << endl;
 //
 //	return 0;
 //}
@@ -331,11 +331,11 @@ int characterReplacement(string s, int k) {
 
 
 /// <summary>
-/// ÎŞÖØ¸´×Ö·ûµÄ×îĞ¡×Ó´®
+/// æ— é‡å¤å­—ç¬¦çš„æœ€å°å­ä¸²
 /// 
 /// </summary>
 
-int lengthOfLongestSubstring(string s) {
+int lengthOfLongestSubstring1(string s) {
 
 	int l = 0;
 	int ans = 0;
@@ -354,7 +354,7 @@ int lengthOfLongestSubstring(string s) {
 }
 
 /// <summary>
-/// ³¤¶È×îĞ¡µÄ×ÓÊı×é
+/// é•¿åº¦æœ€å°çš„å­æ•°ç»„
 /// </summary>
 int minSubArrayLen(int target, vector<int>& nums) {
 	int l = 0;
@@ -375,24 +375,220 @@ int minSubArrayLen(int target, vector<int>& nums) {
 }
 
 
-///ºóĞøÀàËÆµÄÏ°ÌâÌ«¶àÁË£¬ÏÈ¼ÇÂ¼Ò»ÏÂ
-/// Ò».¼òµ¥Ìâ
-/// É¾³ı×ÓÊı×éµÄ×î´óµÃ·Ö
-/// ÕÒµ½×Ö·û´®ÖĞËùÓĞ×ÖÄ¸ÒìÎ»´Ê
-/// ×Ö·û´®µÄÅÅÁĞ
-/// ×î´óÁ¬Ğø1µÄ¸öÊı II
-/// ×î´óÁ¬Ğø 1 µÄ¸öÊı III
-/// ¾¡¿ÉÄÜÊ¹×Ö·û´®ÏàµÈ
-/// É¾µôÒ»¸öÔªËØÒÔºóÈ«Îª 1 µÄ×î³¤×ÓÊı×é
-/// ×î³¤ÍÄÁ÷×ÓÊı×é
+///åç»­ç±»ä¼¼çš„ä¹ é¢˜å¤ªå¤šäº†ï¼Œå…ˆè®°å½•ä¸€ä¸‹
+/// ä¸€.ç®€å•é¢˜
+/// åˆ é™¤å­æ•°ç»„çš„æœ€å¤§å¾—åˆ†
+/// æ‰¾åˆ°å­—ç¬¦ä¸²ä¸­æ‰€æœ‰å­—æ¯å¼‚ä½è¯
+/// å­—ç¬¦ä¸²çš„æ’åˆ—
+/// æœ€å¤§è¿ç»­1çš„ä¸ªæ•° II
+/// æœ€å¤§è¿ç»­ 1 çš„ä¸ªæ•° III
+/// å°½å¯èƒ½ä½¿å­—ç¬¦ä¸²ç›¸ç­‰
+/// åˆ æ‰ä¸€ä¸ªå…ƒç´ ä»¥åå…¨ä¸º 1 çš„æœ€é•¿å­æ•°ç»„
+/// æœ€é•¿æ¹æµå­æ•°ç»„
 /// 
 /// 
-/// ¶ş.½ø½×Ìâ
-/// K Á¬ĞøÎ»µÄ×îĞ¡·­×ª´ÎÊı
-/// ×îĞ¡´°¿Ú×ÓĞòÁĞ
-/// ³¤¶ÈÎª K µÄÎŞÖØ¸´×Ö·û×Ó´®
-/// ×îÉÙ½»»»´ÎÊıÀ´×éºÏËùÓĞµÄ 1
-/// ½¡Éí¼Æ»®ÆÀ¹À
+/// äºŒ.è¿›é˜¶é¢˜
+/// K è¿ç»­ä½çš„æœ€å°ç¿»è½¬æ¬¡æ•°
+/// æœ€å°çª—å£å­åºåˆ—
+/// é•¿åº¦ä¸º K çš„æ— é‡å¤å­—ç¬¦å­ä¸²
+/// æœ€å°‘äº¤æ¢æ¬¡æ•°æ¥ç»„åˆæ‰€æœ‰çš„ 1
+/// å¥èº«è®¡åˆ’è¯„ä¼°
 /// 
 /// 
-/// ÓĞÊ±¼äµÄ»°Á·Ò»¸ö£¡
+/// æœ‰æ—¶é—´çš„è¯ç»ƒä¸€ä¸ªï¼
+
+/// 
+/// æ»‘åŠ¨çª—å£3----è®¡æ•°è¡Œä¸º
+
+
+/// <summary>
+/// è‡³å¤šåŒ…å«ä¸¤ä¸ªä¸åŒå­—ç¬¦çš„æœ€é•¿å­ä¸²
+/// </summary>
+/// åŒæŒ‡é’ˆï¼Œå¿«æŒ‡é’ˆå‘å‰è¿›ï¼ŒæŒ‡å‘ä¸‰ä¸ªå…ƒç´ æ—¶å€™ï¼Œæ…¢æŒ‡é’ˆå¼€å§‹ç§»åŠ¨ï¼Œç›´è‡³åŒºé—´åŒ…å«ä¸¤ä¸ªå…ƒç´ ï¼Œå¿«æŒ‡é’ˆç»§ç»­ç§»åŠ¨ï¼Œç›´è‡³åˆ°è¾¾å­—ç¬¦ä¸²æœ«å°¾ã€‚
+/// æœ¬é¢˜çš„å…³é”®åœ¨äºå¦‚ä½•è®¡æ•°å¾—å‡ºå½“å‰åŒºé—´çš„ä¸åŒå­—ç¬¦ä¸ªæ•°ã€‚
+int lengthOfLongestSubstringTwoDistinct(string s) {
+	int l = 0;
+	int ans = 0;
+	unordered_map<char, int>map;
+
+	//if (s.size() < 3)return s.size();  //ä¸éœ€è¦è€ƒè™‘è¿™ç§æƒ…å†µï¼Œç»“æœç›´æ¥ç­‰äºi - l + 1
+	
+	for (int i = 0; i < s.size(); i++)
+	{
+		map[s[i]]++;
+		
+
+		while (map.size() > 2)
+		{
+			map[s[l]]--;
+			if (map[s[l]] == 0) { map.erase(s[l]); }
+			l++;
+		}
+		ans = max(ans, i - l + 1);
+
+	}
+		return ans;
+
+}
+
+
+//int main() {
+//	string input_str = "ab";
+//	int result = lengthOfLongestSubstringTwoDistinct(input_str);
+//	cout << result << endl;  // è¾“å‡º "ece"
+//
+//	return 0;
+//}
+
+
+/// <summary>
+/// è‡³å¤šåŒ…å«ä¸¤ä¸ªä¸åŒå­—ç¬¦çš„æœ€é•¿å­ä¸²
+/// </summary>
+/// ç›¸å½“äºä¸Šä¸€é¢˜æ›´æ™®é€‚çš„æƒ…å†µï¼Œåªéœ€è¦æ”¹å˜ä¸€ä¸ªå­—æ¯å°±æ‹¿ä¸‹äº†ï¼so easy
+int lengthOfLongestSubstringKDistinct(string s, int k) {
+	int l = 0;
+	int ans = 0;
+	unordered_map<char, int>map;
+
+	//if (s.size() < 3)return s.size();  //ä¸éœ€è¦è€ƒè™‘è¿™ç§æƒ…å†µï¼Œç»“æœç›´æ¥ç­‰äºi - l + 1
+
+	for (int i = 0; i < s.size(); i++)
+	{
+		map[s[i]]++;
+
+
+		while (map.size() > k)
+		{
+			map[s[l]]--;
+			if (map[s[l]] == 0) { map.erase(s[l]); }
+			l++;
+		}
+		ans = max(ans, i - l + 1);
+
+	}
+	return ans;
+
+}
+
+
+/// <summary>
+/// åŒºé—´å­æ•°ç»„çš„ä¸ªæ•°
+/// </summary>
+/// è¿™é“é¢˜çš„å…³é”®åœ¨äºæŠŠé—®é¢˜è¿›è¡Œè½¬åŒ–ï¼ŒæŠŠåŸé—®é¢˜è½¬åŒ–æˆä¸ºã€Œæœ€å¤§å…ƒç´ å°äºç­‰äº R çš„è¿ç»­å­æ•°ç»„çš„ä¸ªæ•°ã€å‡å»ã€Œæœ€å¤§å…ƒç´ å°äºç­‰äºLâˆ’1 çš„è¿ç»­å­æ•°ç»„çš„ä¸ªæ•°ã€
+///æœ€åè½¬åŒ–ä¸ºã€Œæœ€å¤§å…ƒç´ å°äºç­‰äºXçš„è¿ç»­å­æ•°ç»„çš„ä¸ªæ•°ã€å°±ç­‰äºã€Œæœ€å¤§å…ƒç´ å°äºç­‰äºXçš„è¿ç»­å­æ•°ç»„ã€çš„é•¿åº¦ä¹‹å’Œ
+/// 
+/// 
+int lessEqualsThan(vector<int>& nums, int k) {
+	int left = 0;
+	int ans = 0;
+	for (int right = 0; right < nums.size(); right++)
+	{
+		if (nums[right] > k)
+			left = right + 1;
+		ans += right - left;
+	}
+	return ans;
+}
+
+
+int numSubarrayBoundedMax(vector<int>& nums, int left, int right) {
+		
+	return lessEqualsThan(nums, right) - lessEqualsThan(nums, left - 1);
+}
+
+/// <summary>
+/// æ–¹æ³•äºŒ
+/// </summary>
+int numSubarrayBoundedMax2(vector<int>& nums, int left, int right) {
+	int res = 0, last2 = -1, last1 = -1;
+	for (int i = 0; i < nums.size(); i++) {
+		if (nums[i] >= left && nums[i] <= right) {
+			last1 = i;
+		}
+		else if (nums[i] > right) {
+			last2 = i;
+			last1 = -1;
+		}
+		if (last1 != -1) {
+			res += last1 - last2;
+		}
+	}
+	return res;
+}
+
+
+//int main() {
+//	vector<int>nums = { 2,9,2,5,6 };
+//	int result = numSubarrayBoundedMax(nums, 2, 8);
+//	cout << result << endl;
+//}
+
+
+
+/// <summary>
+/// Kä¸ªä¸åŒæ•´æ•°çš„å­æ•°ç»„
+/// </summary>
+/// è¿™ä¸ªé—®é¢˜åŒä¸Šä¸€ä¸ªé—®é¢˜ç±»ä¼¼ï¼Œå…³é”®åœ¨äºè½¬åŒ–é—®é¢˜çš„æè¿°ï¼Œå¦‚æœç›´æ¥ä½¿ç”¨åŒæŒ‡é’ˆæ‰¾ç­‰äºKçš„å­æ•°ç»„ï¼Œå°±ä¼šé—æ¼åŒºé—´ã€‚è½¬åŒ–çš„æ€è·¯å¦‚ä¸‹
+/// ã€Œæœ€å¤šå­˜åœ¨ KKK ä¸ªä¸åŒæ•´æ•°çš„å­åŒºé—´çš„ä¸ªæ•°ã€ä¸ã€Œæ°å¥½å­˜åœ¨ K ä¸ªä¸åŒæ•´æ•°çš„å­åŒºé—´çš„ä¸ªæ•°ã€çš„å·®æ°å¥½ç­‰äºã€Œæœ€å¤šå­˜åœ¨ Kâˆ’1K - 1Kâˆ’1 ä¸ªä¸åŒæ•´æ•°çš„å­åŒºé—´çš„ä¸ªæ•°ã€
+
+int lessEqualsThan2(vector<int>& nums, int k)
+{
+	int left = 0;
+	int count = 0;
+	int ans = 0;
+	unordered_map<int, int>map;
+	for (int right = 0; right < nums.size(); right++)
+	{
+		map[nums[right]]++;
+		while (map.size() > k)
+		{
+			count++;
+			map[nums[left]]--;
+			if (map[nums[left]] == 0) { map.erase(nums[left]); }
+			left++;
+
+		}
+		ans += right - left;
+	}
+	return ans;
+}
+int subarraysWithKDistinct(vector<int>& nums, int k) {
+	return lessEqualsThan2(nums, k) - lessEqualsThan2(nums, k - 1);
+}
+
+
+
+//int main() {
+//	vector<int>nums = { 1,2,1,2,3 };
+//	int result = subarraysWithKDistinct(nums, 2);
+//	cout << result << endl;
+//}
+
+
+/// <summary>
+/// æ°´æœæˆç¯®
+/// </summary>
+/// å’Œ445è¡Œé‚£é“é¢˜ä¸€æ¨¡ä¸€æ ·ï¼Œç§’äº†ï¼
+int totalFruit(vector<int>& fruits) {
+	int l = 0;
+	int ans = 0;
+	unordered_map<int, int>map;
+
+
+	for (int i = 0; i < fruits.size(); i++)
+	{
+		map[fruits[i]]++;
+
+
+		while (map.size() > 2)
+		{
+			map[fruits[l]]--;
+			if (map[fruits[l]] == 0) { map.erase(fruits[l]); }
+			l++;
+		}
+		ans = max(ans, i - l + 1);
+
+	}
+	return ans;
+}
+

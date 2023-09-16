@@ -14,7 +14,6 @@ using namespace std;
 /// </summary>
 
 
-
 /// <summary>
 /// 1.删除有序数组中的重复项---最简单的快慢指针！
 /// </summary>
@@ -96,7 +95,8 @@ int removeDuplicates2(vector<int>& nums) {
 /// <param name="nums"></param>
 void sortColors(vector<int>& nums) {
     int l = 0;
-    int r = nums.size(); int i = 0;
+    int r = nums.size();
+    int i = 0;
     while (i<=r)
     {
         if (nums[i] == 2)
@@ -129,8 +129,13 @@ int findKthLargest(vector<int>& nums, int k) {
 
 
 
-
-
+/// </summary>
+///链表中的双指针问题
+/// /// </summary>
+/// 
+/// 
+/// 
+/// 
 // Definition for singly-linked list.
  struct ListNode {
      int val;
@@ -142,5 +147,139 @@ int findKthLargest(vector<int>& nums, int k) {
 /// 判断环形链表
 /// </summary>
 bool hasCycle(ListNode* head) {
-    return 1;
+    if (head == nullptr || head->next == nullptr) return false;
+    ListNode* slow = head;
+    ListNode* fast = head->next;
+    while (slow != fast)
+    {
+        if (fast == nullptr || fast->next == nullptr)
+            return false;
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+    return true;
+}
+
+
+
+
+
+
+
+
+//int main() {
+//    // 创建一个有环的链表示例
+//    ListNode* head = new ListNode(1);
+//    ListNode* second = new ListNode(2);
+//    ListNode* third = new ListNode(3);
+//    ListNode* fourth = new ListNode(4);
+//
+//    head->next = second;
+//    second->next = third;
+//    third->next = fourth;
+//    fourth->next = second;  // 使链表成环
+//
+//    if (hasCycle(head)) {
+//        std::cout << "链表中存在环。" << std::endl;
+//    }
+//    else {
+//        std::cout << "链表中不存在环。" << std::endl;
+//    }
+//
+//    // 清理链表内存
+//    delete fourth;
+//    delete third;
+//    delete second;
+//    delete head;
+//
+//    return 0;
+//}
+
+
+/// <summary>
+/// 删除链表的倒数第n个结点
+/// </summary>
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode* dummyHead = new ListNode(0);
+    dummyHead->next = head;
+    ListNode* fast = dummyHead;
+    ListNode* slow = dummyHead;
+    for (int i = 0; i < n + 1; i++) {
+        fast = fast->next;
+    }
+
+    while (fast != nullptr)
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    ListNode* cur = slow->next;
+    slow->next = cur->next;
+    delete cur;
+
+    ListNode* retNode = dummyHead->next;
+    delete dummyHead;
+    return retNode;
+
+
+}
+
+
+void printList(ListNode* head) {
+    ListNode* current = head;
+    while (current) {
+        std::cout << current->val << " -> ";
+        current = current->next;
+    }
+    std::cout << "nullptr" << std::endl;
+}
+
+int main() {
+    // 创建一个示例链表：1 -> 2 -> 6 -> 3 -> 4 -> 5 -> 6
+    ListNode* head = new ListNode(0);
+    head->next = new ListNode(1);
+    head->next->next = new ListNode(2);
+    head->next->next->next = new ListNode(3);
+    head->next->next->next->next = new ListNode(4);
+    head->next->next->next->next->next = new ListNode(5);
+    head->next->next->next->next->next->next = new ListNode(6);
+
+    std::cout << "原始链表：" << std::endl;
+    printList(head);
+
+    int valToRemove = 2;
+    head = removeNthFromEnd(head, valToRemove);
+
+    std::cout << "移除元素 " << valToRemove << " 后的链表：" << std::endl;
+    printList(head);
+
+    // 释放链表内存
+    while (head) {
+        ListNode* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
+    return 0;
+}
+
+/// <summary>
+/// 链表的中间结点
+/// </summary>
+/// 快指针走两步，慢指针走一步，这样的话，快指针到达终点时候，慢指针就到达了中点。
+/// 如果链表节点数为偶数，需要返回第二个中间节点，这样的话，要保证此时快指针以及他的下一位都为空
+ListNode* middleNode(ListNode* head) {
+
+	ListNode* fast = head, * slow = head;
+	while (fast != nullptr && fast->next != nullptr) {
+		fast = fast->next->next;
+		slow = slow->next;
+	}
+	return slow;
+
+}
+
+
+ListNode* detectCycle(ListNode* head) {
+
 }

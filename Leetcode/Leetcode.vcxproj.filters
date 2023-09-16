@@ -27,5 +27,11 @@
     <ClCompile Include="02_Hash.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="05.prefix_sum.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\00_simple_array_string.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
