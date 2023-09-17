@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\00_simple_array_string.cpp" />
+    <ClCompile Include="00_simple_array_string.cpp" />
     <ClCompile Include="01_binarySearch.cpp" />
     <ClCompile Include="02_Hash.cpp" />
     <ClCompile Include="03_Sliding_window.cpp" />

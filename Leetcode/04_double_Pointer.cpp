@@ -214,8 +214,10 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
         fast = fast->next;
     }
     ListNode* cur = slow->next;
+    if (cur != nullptr){
     slow->next = cur->next;
     delete cur;
+    }
 
     ListNode* retNode = dummyHead->next;
     delete dummyHead;
@@ -234,34 +236,34 @@ void printList(ListNode* head) {
     std::cout << "nullptr" << std::endl;
 }
 
-int main() {
-    // 创建一个示例链表：1 -> 2 -> 6 -> 3 -> 4 -> 5 -> 6
-    ListNode* head = new ListNode(0);
-    head->next = new ListNode(1);
-    head->next->next = new ListNode(2);
-    head->next->next->next = new ListNode(3);
-    head->next->next->next->next = new ListNode(4);
-    head->next->next->next->next->next = new ListNode(5);
-    head->next->next->next->next->next->next = new ListNode(6);
-
-    std::cout << "原始链表：" << std::endl;
-    printList(head);
-
-    int valToRemove = 2;
-    head = removeNthFromEnd(head, valToRemove);
-
-    std::cout << "移除元素 " << valToRemove << " 后的链表：" << std::endl;
-    printList(head);
-
-    // 释放链表内存
-    while (head) {
-        ListNode* temp = head;
-        head = head->next;
-        delete temp;
-    }
-
-    return 0;
-}
+//int main() {
+//    // 创建一个示例链表：1 -> 2 -> 6 -> 3 -> 4 -> 5 -> 6
+//    ListNode* head = new ListNode(0);
+//    head->next = new ListNode(1);
+//    head->next->next = new ListNode(2);
+//    head->next->next->next = new ListNode(3);
+//    head->next->next->next->next = new ListNode(4);
+//    head->next->next->next->next->next = new ListNode(5);
+//    head->next->next->next->next->next->next = new ListNode(6);
+//
+//    std::cout << "原始链表：" << std::endl;
+//    printList(head);
+//
+//    int valToRemove = 2;
+//    head = removeNthFromEnd(head, valToRemove);
+//
+//    std::cout << "移除元素 " << valToRemove << " 后的链表：" << std::endl;
+//    printList(head);
+//
+//    // 释放链表内存
+//    while (head) {
+//        ListNode* temp = head;
+//        head = head->next;
+//        delete temp;
+//    }
+//
+//    return 0;
+//}
 
 /// <summary>
 /// 链表的中间结点
@@ -281,5 +283,99 @@ ListNode* middleNode(ListNode* head) {
 
 
 ListNode* detectCycle(ListNode* head) {
-
+    ListNode* fast = head;
+    ListNode* slow = head;
+    while (fast&&fast->next)
+    {
+        fast = fast->next->next;
+        slow = slow->next;
+        if (fast == slow) break;
+    }
+    if (fast == nullptr || fast->next == nullptr) return nullptr;
+    fast = head;
+    while (slow!= fast)
+    {
+        slow = slow->next;
+        fast = fast->next;
+    }
+    return fast;
 }
+
+/// <summary>
+/// 相交链表
+/// </summary>
+ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
+    ListNode* pA = headA;
+    ListNode* pB = headB;
+
+    while (pA != pB) {
+        // 如果 pA 到达链表末尾，则将其重定向到 headB
+        pA = (pA == nullptr) ? headB : pA->next;
+
+        // 如果 pB 到达链表末尾，则将其重定向到 headA
+        pB = (pB == nullptr) ? headA : pB->next;
+    }
+
+    // 返回交叉点或 nullptr
+    return pA;
+}
+
+
+
+
+
+/// <summary>
+/// 双指针----相向交替移动的两个变量
+/// </summary>
+/// 
+/// 
+/// <summary>
+/// 盛水最多的容器
+/// </summary>
+
+int maxArea(vector<int>& height) {
+    int n = height.size();
+    int i = 0;
+    int j = n - 1;
+    int maxarea = 0;
+    while (i<j)
+    {   
+        int area = min(height[j], height[i]) * (j - i);
+        if (height[i] > height[j])
+            j--;
+        else
+            i++;
+        maxarea = max(maxarea, area);
+        
+    }
+    return maxarea;
+}
+
+
+///双指针的学习之旅就到这吧！接下来是一些有关双指针的练习题，也许大概可能我以后会做一下吧。。。
+/// 
+/// 习题训练
+/// 
+/// 最接近的三数之和
+/// 四数之和
+/// 接雨水
+/// 较小的三数之和
+/// 有序转化数组
+/// 比较含退格的字符串
+/// 数组中的最长山脉
+/// 救生艇
+/// 长按键入
+/// 有序数组的平方
+/// 小于 K 的两数之和
+/// 安排会议日程
+/// 
+
+
+/// <summary>
+/// 四数之和
+/// </summary>
+/// 先来个四数之和！
+//vector<vector<int>> fourSum(vector<int>& nums, int target) {
+//
+//}
+

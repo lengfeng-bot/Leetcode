@@ -462,7 +462,7 @@ int arrayPairSum(vector<int>& nums) {
 /// <param name="numbers"></param>
 /// <param name="target"></param>
 /// <returns></returns>
-vector<int> twoSum(vector<int>& numbers, int target) {
+vector<int> twoSum1(vector<int>& numbers, int target) {
     vector<int>arr= { };
 
     int len = numbers.size();
@@ -571,7 +571,7 @@ int findMaxConsecutiveOnes(vector<int>& nums) {
 /// <param name="target"></param>
 /// <param name="nums"></param>
 /// <returns></returns>
-int minSubArrayLen(int target, vector<int>& nums) {
+int minSubArrayLen1(int target, vector<int>& nums) {
 
     int len = nums.size();
     int  n = 0;
