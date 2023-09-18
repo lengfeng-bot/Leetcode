@@ -1,6 +1,7 @@
 
 #include<iostream>
 #include<vector>
+#include<algorithm>
 
 using namespace std;
 
@@ -375,7 +376,31 @@ int maxArea(vector<int>& height) {
 /// 四数之和
 /// </summary>
 /// 先来个四数之和！
-//vector<vector<int>> fourSum(vector<int>& nums, int target) {
-//
-//}
+vector<vector<int>> fourSum(vector<int>& nums, int target) {
+    
+    int n = nums.size();
+    sort(nums.begin(), nums.end());
+    vector<vector<int> > res;
+    if (n < 4)
+        return res;
+
+    int l = 0;
+    int r = n - 1;
+    int sum = 0;
+    
+    for (int i = 0; i < n - 3; i++)
+    {
+        if (i > 0 && nums[i] == nums[i - 1])
+        continue;
+        if (nums[i] + nums[i + 1] + nums[i + 2] + nums[i + 3] > target)break;
+        {
+
+        }
+        for (int j = i+1; j < n-2; j++)
+        {
+
+        }
+    }
+    return res;
+}
 
