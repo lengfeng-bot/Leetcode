@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="03_Sliding_window.cpp">
+    <ClCompile Include="03_sliding_Window.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="04_double_Pointer.cpp">
@@ -27,10 +27,13 @@
     <ClCompile Include="02_Hash.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="05.prefix_sum.cpp">
+    <ClCompile Include="05_prefix_Sum.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="00_simple_array_string.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="06_Greey.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

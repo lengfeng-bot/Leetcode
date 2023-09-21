@@ -130,9 +130,10 @@
     <ClCompile Include="00_simple_array_string.cpp" />
     <ClCompile Include="01_binarySearch.cpp" />
     <ClCompile Include="02_Hash.cpp" />
-    <ClCompile Include="03_Sliding_window.cpp" />
+    <ClCompile Include="03_sliding_Window.cpp" />
     <ClCompile Include="04_double_Pointer.cpp" />
-    <ClCompile Include="05.prefix_sum.cpp" />
+    <ClCompile Include="05_prefix_Sum.cpp" />
+    <ClCompile Include="06_Greey.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
