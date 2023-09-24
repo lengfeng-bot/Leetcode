@@ -73,6 +73,7 @@ bool lemonadeChange(vector<int>& bills) {
 
 //区域选择问题
 //有一类使用「贪心算法」解决的问题称为「活动选择问题」，解决这一类问题的直觉是「优先选择活动最早的活动」。
+//我觉得这个套路就是先排序期间的起始位置，之后一个for循环解决问题！
 
 /// <summary>
 /// 无重叠区间
@@ -107,7 +108,129 @@ int eraseOverlapIntervals(vector<vector<int>>& intervals) {
 
 
 //用最少数量的箭引爆气球
+//每一支箭射出的位置都在某个气球的右边界，才是最优的射法。之后判断射到最小的右边界时候，这个右边界的右边是否还存在没有被射到的气球，
+// 如果有，就要加一个箭，继续之前的操作。
+//这太难想了吧！！！~
+int findMinArrowShots(vector<vector<int>>& points) {
 
+    if (points.empty()) {
+        return 0;
+    }
+
+    // 按照气球的结束位置进行排序
+    sort(points.begin(), points.end(), [](vector<int>& a, vector<int>& b) {
+        return a[1] < b[1];
+        });
+
+    int arrows = 1;
+    int endPos = points[0][1];
+
+    for (int i = 1; i < points.size(); ++i) {
+        if (points[i][0] > endPos) {
+            // 需要一支新箭来引爆下一个气球
+            arrows++;
+            endPos = points[i][1];
+        }
+    }
+
+    return arrows;
+}
 
 
 //合并区间
+vector<vector<int>> mergeIntervals(vector<vector<int>>& intervals) {
+
+
+    sort(intervals.begin(), intervals.end());
+    vector<vector<int>>result;
+    result.push_back(intervals[0]);
+    int j = 0;
+    for (int i = j + 1; i < intervals.size(); i++)
+    {
+        if (intervals[i][0] <= result[j][1])
+            result[j][1] = max(result[j][1], intervals[i][1]);
+        else
+        {
+            result.push_back(intervals[i]);
+            j++;
+        }
+
+    }
+    return result;
+
+}
+
+//int main() {
+//    vector<vector<int>> intervals = { {1, 3}, {2, 6}, {8, 10}, {15, 18} };
+//    vector<vector<int>> merged = mergeIntervals(intervals);
+//
+//    cout << "合并后的区间：" << endl;
+//    for (const vector<int>& interval : merged) {
+//        cout << "[" << interval[0] << ", " << interval[1] << "] ";
+//    }
+//    cout << endl;
+//
+//    return 0;
+//}
+
+
+
+/// <summary>
+/// 跳跃游戏
+/// </summary>
+bool canJump(vector<int>& nums) {
+
+    if (nums.size() == 1) return true;
+    int ans = 0;
+    for (int i = 0; i < nums.size() - 1; i++)
+    {
+        if (ans >= i)
+            ans = max(i + nums[i], ans);
+        if (ans >= nums.size() - 1)
+            return true;
+    }
+    return false;
+
+
+}
+
+/// <summary>
+/// 跳跃游戏2
+/// </summary>
+int jump(vector<int>& nums) {
+    int ans = 0;
+    int start = 0;
+    int end = 1;
+    while (end <nums.size())
+    {
+        int maxlen = 0;
+        for (int  i = start; i < end; i++)
+        {
+            maxlen = max(maxlen, i + nums[i]);
+
+        }
+            start = end;
+            end = maxlen + 1;
+            ans++;
+    }
+    return ans;
+}
+
+
+
+
+
+//int main() {
+//    vector<int> nums = { 3,2,1,0,4 };
+//    bool result = canJump(nums);
+//
+//    if (result) {
+//        cout << "可以到达最后一个位置" << endl;
+//    }
+//    else {
+//        cout << "无法到达最后一个位置" << endl;
+//    }
+//
+//    return 0;
+//}
+
