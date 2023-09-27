@@ -234,3 +234,20 @@ int jump(vector<int>& nums) {
 //    return 0;
 //}
 
+
+/// <summary>
+/// 玩筹码
+/// </summary>
+/// 秒了！统计数组奇数偶数的个数，最小
+int minCostToMoveChips(vector<int>& position) {
+    int even = 0, odd = 0;
+    for (int pos : position) {
+        if (pos % 2) {
+            odd++;
+        }
+        else {
+            even++;
+        }
+    }
+    return min(odd, even);
+}

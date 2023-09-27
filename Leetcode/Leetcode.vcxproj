@@ -134,6 +134,7 @@
     <ClCompile Include="04_double_Pointer.cpp" />
     <ClCompile Include="05_prefix_Sum.cpp" />
     <ClCompile Include="06_Greey.cpp" />
+    <ClCompile Include="07_Sort.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
