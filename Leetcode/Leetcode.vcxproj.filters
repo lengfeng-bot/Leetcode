@@ -21,7 +21,7 @@
     <ClCompile Include="04_double_Pointer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="01_binarySearch.cpp">
+    <ClCompile Include="01_binary_Search.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="02_Hash.cpp">
@@ -37,6 +37,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="07_Sort.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="08_tree_basic.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

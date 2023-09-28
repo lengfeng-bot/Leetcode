@@ -128,13 +128,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="00_simple_array_string.cpp" />
-    <ClCompile Include="01_binarySearch.cpp" />
+    <ClCompile Include="01_binary_Search.cpp" />
     <ClCompile Include="02_Hash.cpp" />
     <ClCompile Include="03_sliding_Window.cpp" />
     <ClCompile Include="04_double_Pointer.cpp" />
     <ClCompile Include="05_prefix_Sum.cpp" />
     <ClCompile Include="06_Greey.cpp" />
     <ClCompile Include="07_Sort.cpp" />
+    <ClCompile Include="08_tree_basic.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

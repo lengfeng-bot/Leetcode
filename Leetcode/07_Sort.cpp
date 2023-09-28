@@ -136,9 +136,95 @@ ListNode* insertionSortList(ListNode* head) {
 /// </summary>
 void shellSort(vector<int>& nums)
 {
+	for (int gap = nums.size() / 2; gap > 0; gap /= 2) // 外层遍历增量序列元素
+	{
+
+		for (int i = 0; i < gap; ++i) // 内层循环遍历每个分组，gap等于分组数
+		{
+
+			// 对每个分组依次进行插入排序
+			for (int j = i + gap; j < nums.size(); j += gap) // 假设每组第一个元素有序，然后遍历待排数组
+			{
+				for (int k = i; k < j; k += gap) // 从左边开始依次遍历有序数组，找到合适的位置，然后该位置所有元素依次右移一位，将待排元素插入该位置
+				{
+					// 注：从第j个待排元素开始排序，说明前面有j-1个有序数组，故j是遍历有序数组终止条件
+					if (nums[k] > nums[j]) // 待排序元素从有序数组左边第一个开始寻找，找到第一个大于待排元素的数，即为要插入的位置；如果没找到，则说明不用变
+					{
+						int tmp = nums[j];
+						for (int p = j; p > k; p -= gap) // 找到第k元素为要插入的位置，k+gap后面待排元素依次往后移一位，直到j位置截止
+						{
+							nums[p] = nums[p - gap]; // 注意：这里要确保减法溢出不为负数！
+						}
+						nums[k] = tmp; // 将待排序元素插入第k位置，完成一个待排元素排序
+						break; // 跳出遍历有序数组，进行下一个待排元素排序
+					}
+
+				}
+			}
+		}
+	}
+
 
 }
 
+/// <summary>
+/// 堆排序
+/// </summary>
+
+/// 调整堆
+void heapify(vector<int>&nums, int n, int i) {
+	int largest = i;         //设此节点为最大节点
+	int lson = i * 2 + 1;    //找到它的左孩子下标
+	int rson = i * 2 + 2;	//找到右孩子下标
+	if (lson<n && nums[lson]>nums[largest])
+	{
+		largest = lson;
+	}	
+	if (rson<n && nums[rson]>nums[largest])
+	{
+		largest = rson;
+	}
+	if (largest != i) {
+		swap(nums[largest], nums[i]);
+		heapify(nums,n,largest);
+	}
+
+
+}
+
+
+void heapSort(vector<int>&nums) {
+
+	//构建一个大顶堆
+	int n = nums.size();
+	int lastNode = n - 1; //数组长度为n
+	int parent = (lastNode - 1) / 2;
+
+	for (int i = parent; i >= 0; i--) {
+		heapify(nums,n,i);
+	}  //到这里已经成为了一个大顶堆
+
+		//排序
+	for (int i = n - 1; i >= 0; i--) {
+		swap(nums[i], nums[0]);  //最后一个元素和第一个元素（大顶堆）做交换
+		heapify(nums, i, 0);  //交换完之后还要维护大顶堆性质
+	}
+
+
+
+}
+
+
+//快速排序
+void quickSort(vector<int>& nums) {
+
+}
+
+
+
+void mergeSort(vector<int>& nums) {
+
+}
 
 
 int main() {
@@ -147,6 +233,8 @@ int main() {
 	//bubbleSort(nums);
 	//selectionSort(nums);
 	//insertSort(nums);
+	//shellSort(nums);
+	//heapSort(nums);
 	print(nums);
 
 }
