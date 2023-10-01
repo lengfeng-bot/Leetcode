@@ -229,14 +229,14 @@ void mergeSort(vector<int>& nums) {
 }
 
 
-int main() {
-	vector<int>nums = { 1,6,2,3,5,4 };
-	print(nums);
-	//bubbleSort(nums);
-	//selectionSort(nums);
-	//insertSort(nums);
-	//shellSort(nums);
-	//heapSort(nums);
-	print(nums);
-
-}
+//int main() {
+//	vector<int>nums = { 1,6,2,3,5,4 };
+//	print(nums);
+//	//bubbleSort(nums);
+//	//selectionSort(nums);
+//	//insertSort(nums);
+//	//shellSort(nums);
+//	//heapSort(nums);
+//	print(nums);
+//
+//}

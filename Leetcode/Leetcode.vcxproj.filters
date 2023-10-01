@@ -42,5 +42,11 @@
     <ClCompile Include="08_tree_basic.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="10_dynamic_plan_basic.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="09_linkedList.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
