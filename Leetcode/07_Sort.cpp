@@ -218,25 +218,114 @@ void heapSort(vector<int>&nums) {
 
 
 //øÏÀŸ≈≈–Ú
-void quickSort(vector<int>& nums) {
+void quickSort(vector<int>& nums, int left, int right) {
+
+	if (left >= right)
+		return;
+	int l = left;
+	int r = right;
+	int pivot = nums[l];
+	while (l < r)
+	{
+		while (nums[r] >= pivot && l < r)
+			r--;
+		while (nums[l] <= pivot && l < r)
+			l++;
+		if (l < r) {
+		int temp = nums[l];
+		nums[l] = nums[r];
+		nums[r] = temp;
+		}
+
+	}
+	nums[left] = nums[l];
+	nums[l] = pivot;
+	quickSort(nums,left,l-1);
+	quickSort(nums,l+1,right);
 
 }
 
 
 
-void mergeSort(vector<int>& nums) {
-
-}
-
-
-//int main() {
-//	vector<int>nums = { 1,6,2,3,5,4 };
-//	print(nums);
-//	//bubbleSort(nums);
-//	//selectionSort(nums);
-//	//insertSort(nums);
-//	//shellSort(nums);
-//	//heapSort(nums);
-//	print(nums);
+//void quickSort2(vector<int>& nums, int left, int right) {
+//
+//	if (left >= right)
+//		return;
+//
+//	int i = left;
+//	int j = right;
+//	int key = nums[left];
+//	while (i<j)
+//	{
+//		while (nums[j] >= key&&i<j)
+//			j--;
+//		while (nums[i] <= key&&i<j)
+//			i++;
+//		if(i<j){
+//		int temp = nums[i];
+//		nums[i] = nums[j];
+//		nums[j] = temp;}
+//
+//	}
+//	nums[left] = nums[i];
+//	nums[i] = key;
+//	quickSort2(nums, left, i - 1);
+//	quickSort2(nums, i + 1, right);
 //
 //}
+
+
+
+
+/// <summary>
+/// πÈ≤¢≈≈–Ú
+/// </summary>
+void mergeSort(vector<int>& nums,int left,int right) {
+	if (left >= right) return;
+	int mid = left + (right - left) / 2;
+	mergeSort(nums, left, mid);
+	mergeSort(nums, mid + 1, right);
+	int* ans = new int[right-left+1];
+	int i = left;
+	int j = mid + 1;
+	int k = 0;
+	while (i<=mid&&j<=right)
+	{
+		if (nums[i] <= nums[j])
+			ans[k++] = nums[i++];
+		else
+		{
+			ans[k++] = nums[j++];
+		}
+	}
+	while (i<=mid)
+	{
+		ans[k++] = nums[i++];
+	}
+	while (j<=right)
+	{
+		ans[k++] = nums[j++];
+	}
+	k = 0;
+	for (int i = left; i < right; i++)
+	{
+		nums[i] = ans[k++];
+	}
+	delete[] ans;
+
+}
+
+
+int main() {
+	vector<int>nums = { 1,6,2,3,5,4 };
+	print(nums);
+	//bubbleSort(nums);
+	//selectionSort(nums);
+	//insertSort(nums);
+	//shellSort(nums);
+	//heapSort(nums);
+	//quickSort(nums,0,nums.size()-1);
+	mergeSort(nums, 0, nums.size());
+	print(nums);
+
+}

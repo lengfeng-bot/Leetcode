@@ -237,12 +237,12 @@ TreeNode* constructMaximumBinaryTree(std::vector<int>& nums) {
 
 
 
-int main() {
-    vector<int>  nums = {3, 2, 1, 6, 0, 5};
-    TreeNode* root = constructMaximumBinaryTree(nums);
-    printTree(root);
-    // 释放内存
-    freeTree(root);
-
-    return 0;
-}
+//int main() {
+//    vector<int>  nums = {3, 2, 1, 6, 0, 5};
+//    TreeNode* root = constructMaximumBinaryTree(nums);
+//    printTree(root);
+//    // 释放内存
+//    freeTree(root);
+//
+//    return 0;
+//}
