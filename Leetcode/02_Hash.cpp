@@ -2,6 +2,8 @@
 #include<vector>
 #include<algorithm>
 #include <unordered_map>
+#include<unordered_set>
+#include<stack>
 
 
 
@@ -424,3 +426,149 @@ vector<vector<int>> threeSum(vector<int>& nums) {
 //}
 
 
+
+/// <summary>
+/// 字母异位数
+/// </summary>
+/// 只使用一个简单的<char,int>哈希表的话，不能判断一个字符串组中的异位数
+/// 让每个键对应由该键组成的所有字母异位数，此时，key为string,而value为vector<value>
+/// 只需把每个将要遍历的字符串赋值给key，之后排序，即可找到对应关系
+vector<vector<string>> groupAnagrams(vector<string>& strs) {
+	vector<vector<string>>ans;
+	unordered_map<string, vector<string>>map;
+	for (auto str:strs){
+		string key = str;
+		sort(key.begin(), key.end());
+		map[key].emplace_back(str);
+	
+	}		
+	for (auto it = map.begin(); it != map.end(); ++it)
+	{
+			ans.emplace_back(it->second);
+	}
+	return ans;
+
+}
+
+
+
+//int main() {
+//	vector<string> input = { "eat", "tea", "tan", "ate", "nat", "bat" };
+//	vector<vector<string>> groupedAnagrams = groupAnagrams(input);
+//
+//	// Print the grouped anagrams
+//	for (const vector<string>& group : groupedAnagrams) {
+//		for (const string& word : group) {
+//			cout << word << " ";
+//		}
+//		cout << endl;
+//	}
+//
+//	return 0;
+//}
+
+
+///先介绍一下和哈希表相似的set的基本用法
+///set是是C++标准库中的一种无序集合，用于存储唯一的元素
+void unorder_set_basic() {
+
+	unordered_set<int> myHashSet;
+
+	// 插入元素
+	myHashSet.insert(10);
+	myHashSet.insert(5);
+	myHashSet.insert(8);
+	myHashSet.insert(12);
+
+	// 查找元素并输出
+	int searchValue = 8;
+	std::unordered_set<int>::iterator it = myHashSet.find(searchValue);
+	if (it != myHashSet.end()) {
+		std::cout << "元素 " << searchValue << " 存在于集合中。" << std::endl;
+	}
+	else {
+		std::cout << "元素 " << searchValue << " 不存在于集合中。" << std::endl;
+	}
+
+	// 删除元素
+	myHashSet.erase(5);
+
+	// 遍历集合并输出
+	std::cout << "集合中的元素：";
+	for (const int& value : myHashSet) {
+		std::cout << value << " ";
+	}
+	std::cout << std::endl;
+
+	// 检查集合是否为空
+	if (myHashSet.empty()) {
+		std::cout << "集合为空。" << std::endl;
+	}
+	else {
+		std::cout << "集合不为空，大小为：" << myHashSet.size() << std::endl;
+	}
+
+	// 使用 count 检查元素是否存在
+	int elementToCheck = 3;
+	if (myHashSet.count(elementToCheck) == 1) {
+		std::cout << elementToCheck << " 存在于集合中。" << std::endl;
+	}
+	else {
+		std::cout << elementToCheck << " 不存在于集合中。" << std::endl;
+	}
+
+
+}
+
+/// <summary>
+/// 最长连续序列
+/// </summary>
+int longestConsecutive(vector<int>& nums) {
+	unordered_set<int>set;
+	for (auto& num : nums)
+		set.insert(num);
+
+	int longestStreak = 0;
+
+	for (auto& num : nums) {
+
+		if (!set.count(num - 1))
+		{
+			int currentNum = num;
+			int currentStreak = 1;
+
+			while (set.count(currentNum + 1))
+			{
+				currentNum += 1;
+				currentStreak += 1;
+			}
+		}
+		longestStreak = max(longestStreak, currentStreak);
+		
+	}
+	return longestStreak;
+
+}
+
+
+
+bool isValid(string s) {
+	std::stack<char> stack;
+	std::unordered_map<char, char> mapping = { {')', '('}, {']', '['}, {'}', '{'} };
+	for (auto c : s) {
+		if (mapping.count(c))
+		{
+			char topElement = stack.empty() ? '#' : stack.top();
+			if (topElement != mapping[c]) {
+				return false;
+			}
+			stack.pop();
+		}
+		else
+			stack.push(c);
+	
+	}
+	return stack.empty();
+		
+
+}

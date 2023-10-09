@@ -316,16 +316,16 @@ void mergeSort(vector<int>& nums,int left,int right) {
 }
 
 
-int main() {
-	vector<int>nums = { 1,6,2,3,5,4 };
-	print(nums);
-	//bubbleSort(nums);
-	//selectionSort(nums);
-	//insertSort(nums);
-	//shellSort(nums);
-	//heapSort(nums);
-	//quickSort(nums,0,nums.size()-1);
-	mergeSort(nums, 0, nums.size());
-	print(nums);
-
-}
+//int main() {
+//	vector<int>nums = { 1,6,2,3,5,4 };
+//	print(nums);
+//	//bubbleSort(nums);
+//	//selectionSort(nums);
+//	//insertSort(nums);
+//	//shellSort(nums);
+//	//heapSort(nums);
+//	//quickSort(nums,0,nums.size()-1);
+//	mergeSort(nums, 0, nums.size());
+//	print(nums);
+//
+//}

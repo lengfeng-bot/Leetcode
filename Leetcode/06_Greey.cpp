@@ -2,6 +2,7 @@
 #include<vector>
 #include<unordered_map>
 #include<algorithm>
+#include<string>
 
 using namespace std;
 
@@ -250,4 +251,24 @@ int minCostToMoveChips(vector<int>& position) {
         }
     }
     return min(odd, even);
+}
+
+
+/// <summary>
+/// 最小分割和
+/// </summary>
+/// 我只知道num1和num2最多相差一个。但还应该发现另一个关键:num1,num2中的数字都是单调递增的，且任何一个数字，都不能大于任何一个数中比它位数更小的数字
+/// 这样的话直接排序，然后交替分配数字即可
+int splitNum(int num) {
+    string stnum = to_string(num);
+    sort(stnum.begin(), stnum.end());
+    int num1 = 0;
+    int num2 = 0;
+    for (int i = 0; i < stnum.size(); i++) {
+        if (i % 2 == 0)
+            num1 = num1 * 10 + (stnum[i] - '0');
+        else
+            num2 = num2 * 10 + (stnum[i] - '0');
+    }
+    return num1 + num2;
 }

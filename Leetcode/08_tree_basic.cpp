@@ -206,6 +206,24 @@ void printTree(TreeNode* root, int depth = 0, char prefix = ' ') {
 }
 
 
+
+/// <summary>
+/// 判断二叉树是否对称
+/// </summary>
+/// 
+bool check(TreeNode* l, TreeNode* r) {
+    if (!l && !r) return true;
+    if (!l || !r)  return false;
+    return l->val == r->val && check(l->left, r->right)&&check(l->right->right->left);
+}
+bool isSymmetric(TreeNode* root) {
+    check(root->left, root->right);
+}
+
+
+
+
+
 /// <summary>
 /// 构建最大二叉树
 /// </summary>
@@ -246,3 +264,4 @@ TreeNode* constructMaximumBinaryTree(std::vector<int>& nums) {
 //
 //    return 0;
 //}
+
