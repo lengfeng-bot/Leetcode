@@ -1,6 +1,8 @@
 #include<iostream>
 #include<vector>
 #include <functional>
+#include<deque>
+#include <queue>
 
 using namespace std;
 
@@ -265,3 +267,78 @@ TreeNode* constructMaximumBinaryTree(std::vector<int>& nums) {
 //    return 0;
 //}
 
+
+
+/// <summary>
+/// 二叉树层序遍历 -----BFS
+/// </summary>
+vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>>ans;
+    queue<TreeNode*>q;
+    if (root)
+        q.push(root);
+    while (!q.empty())
+    {
+        vector<int>vals;
+        int levelSize = q.size();
+        for (int i = 0; i < levelSize; i++)  //这里不能直接 i<q.size(),因为for循环中的操作会改变size的大小
+        {
+            TreeNode* cur = q.front();
+            q.pop();
+            vals.push_back(cur->val);
+            if (cur->left)
+                q.push(cur->left);
+            if (cur->right)
+                q.push(cur->right);
+        }
+        ans.push_back(vals);
+    }
+    return ans;
+}
+
+
+/// <summary>
+/// 二叉树锯齿形层序遍历
+/// </summary>
+/// 跟上面的很接近，就是需要在偶数层进行方向的翻转，这时候，双端队列就更适合了
+vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+    vector<vector<int>>ans;
+    deque<TreeNode*>dq;
+    if (root)
+       dq.push(root);
+    bool leftToRight = true; // 控制遍历方向
+    while (!dq.empty())
+    {
+        vector<int>vals;
+        int levelSize = dq.size();
+        for (int i = 0; i < levelSize; i++)  //这里不能直接 i<q.size(),因为for循环中的操作会改变size的大小
+        {
+            if (leftToRight)
+            {
+            TreeNode* cur = dq.front();
+            dq.pop_front();
+
+            vals.push_back(cur->val);
+            if (cur->left)
+                dq.push_back(cur->left);
+            if (cur->right)
+                dq.push_back(cur->right);
+            }
+            else
+            {   dq.
+                TreeNode* cur = dq.back();
+                dq.pop_back();
+                vals.push_back(cur->val);
+                if (cur->right)
+                    dq.push_front(cur->right);
+                if (cur->left)
+                    dq.push_front(cur->left);
+
+            }
+
+        }
+        leftToRight = !leftToRight;
+        ans.push_back(vals);
+    }
+    return ans;
+}
