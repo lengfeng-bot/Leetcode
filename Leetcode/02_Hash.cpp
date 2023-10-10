@@ -529,13 +529,14 @@ int longestConsecutive(vector<int>& nums) {
 		set.insert(num);
 
 	int longestStreak = 0;
+	int currentStreak = 1;
 
 	for (auto& num : nums) {
 
 		if (!set.count(num - 1))
 		{
 			int currentNum = num;
-			int currentStreak = 1;
+			currentStreak += 1;
 
 			while (set.count(currentNum + 1))
 			{

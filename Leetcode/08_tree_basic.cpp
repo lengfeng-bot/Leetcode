@@ -216,11 +216,11 @@ void printTree(TreeNode* root, int depth = 0, char prefix = ' ') {
 bool check(TreeNode* l, TreeNode* r) {
     if (!l && !r) return true;
     if (!l || !r)  return false;
-    return l->val == r->val && check(l->left, r->right)&&check(l->right->right->left);
+    return l->val == r->val && check(l->left, r->right)&& check(l->right,r->left);
 }
-bool isSymmetric(TreeNode* root) {
-    check(root->left, root->right);
-}
+//bool isSymmetric(TreeNode* root) {
+//    check(root->left, root->right);
+//}
 
 
 
@@ -305,7 +305,7 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
     vector<vector<int>>ans;
     deque<TreeNode*>dq;
     if (root)
-       dq.push(root);
+       dq.push_front(root);
     bool leftToRight = true; // 控制遍历方向
     while (!dq.empty())
     {
@@ -325,7 +325,7 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
                 dq.push_back(cur->right);
             }
             else
-            {   dq.
+            {  
                 TreeNode* cur = dq.back();
                 dq.pop_back();
                 vals.push_back(cur->val);
@@ -341,4 +341,72 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
         ans.push_back(vals);
     }
     return ans;
+}
+
+
+/// <summary>
+/// 二叉树的直径
+/// </summary>
+/// 
+/// 
+int dfs(TreeNode* node, int& diameter) {
+    if (!node) return 0;
+    int L = dfs(node->left, diameter);
+    int R = dfs(node->right, diameter);
+
+    diameter =max(diameter, L + R);
+    return max(L , R) + 1;
+}
+
+int diameterOfBinaryTree(TreeNode* root) {
+    if (root == nullptr)
+        return 0;
+
+    int diameter = 0;
+    dfs(root, diameter);
+    return diameter;
+}
+
+
+//int main() {
+//    // 构建一棵二叉树的示例
+//    TreeNode* root = new TreeNode(1);
+//    root->left = new TreeNode(2);
+//    root->right = new TreeNode(3);
+//    root->left->left = new TreeNode(4);
+//    root->left->right = new TreeNode(5);
+//
+//
+//    int result =diameterOfBinaryTree(root);
+//
+//    cout << "二叉树的直径是: " << result << endl;
+//
+//    return 0;
+//}
+
+/// <summary>
+/// 相同的树
+/// </summary>
+bool isSameTree(TreeNode* p, TreeNode* q) {
+    if (p == nullptr && q == nullptr) {
+        return true;
+    }
+    else if (p == nullptr || q == nullptr) {
+        return false;
+    }
+    else if (p->val != q->val) {
+        return false;
+    }
+    else {
+        return isSameTree(p->left, q->left) && isSameTree(p->right, q->right);
+    }
+
+}
+
+
+bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+    if (!root) return false;
+    if (isSameTree(root, subRoot))
+        return true;
+    return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
 }

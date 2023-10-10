@@ -178,19 +178,19 @@ private:
 	std::stack<int> minStack;  // 存储最小值的栈
 };
 
-int main() {
-	MinStack minStack;
-
-	minStack.push(-2);
-	minStack.push(0);
-	minStack.push(-3);
-
-	std::cout << "栈中最小元素是：" << minStack.getMin() << std::endl; // 输出 -3
-
-	minStack.pop();
-
-	std::cout << "栈中顶部元素是：" << minStack.top() << std::endl; // 输出 0
-	std::cout << "栈中最小元素是：" << minStack.getMin() << std::endl; // 输出 -2
-
-	return 0;
-}
+//int main() {
+//	MinStack minStack;
+//
+//	minStack.push(-2);
+//	minStack.push(0);
+//	minStack.push(-3);
+//
+//	std::cout << "栈中最小元素是：" << minStack.getMin() << std::endl; // 输出 -3
+//
+//	minStack.pop();
+//
+//	std::cout << "栈中顶部元素是：" << minStack.top() << std::endl; // 输出 0
+//	std::cout << "栈中最小元素是：" << minStack.getMin() << std::endl; // 输出 -2
+//
+//	return 0;
+//}
