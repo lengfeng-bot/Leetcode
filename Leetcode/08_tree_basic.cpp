@@ -410,3 +410,141 @@ bool isSubtree(TreeNode* root, TreeNode* subRoot) {
         return true;
     return isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
 }
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode* next) : val(x), next(next) {}
+    
+};
+/// <summary>
+/// 二叉树中的链表
+/// </summary>
+bool dfs(TreeNode* rt, ListNode* head) {
+    // 链表已经全部匹配完，匹配成功
+    if (head == NULL) return true;
+    // 二叉树访问到了空节点，匹配失败
+    if (rt == NULL) return false;
+    // 当前匹配的二叉树上节点的值与链表节点的值不相等，匹配失败
+    if (rt->val != head->val) return false;
+    return dfs(rt->left, head->next) || dfs(rt->right, head->next);
+}
+
+bool isSubPath(ListNode* head, TreeNode* root) {
+     if (root == NULL) return false;
+     return dfs(root, head) || isSubPath(head, root->left) || isSubPath(head, root->right);
+}
+
+
+/// <summary>
+/// 找树左下角的值
+/// </summary>
+/// 先用一下BFS求解吧
+/// 
+int findBottomLeftValue1(TreeNode* root) {
+    queue<TreeNode*>q;
+    q.push(root);
+    int result = 0;
+    while (!q.empty())
+    {
+        vector<int>layer;
+        int layersize = q.size();
+        for (int i = 0; i < layersize; i++)
+        {
+             TreeNode* cur = q.front();
+             q.pop();
+             layer.push_back(cur->val);
+             if (cur->left)
+                q.push(cur->left);
+             if (cur->right)
+                q.push(cur->right);
+        }
+        result = layer[0];
+       
+    }
+    return result;
+}
+
+/// <summary>
+/// 再用一下DFS求解
+/// </summary>
+/// 相同深度，最左边，不同深度，最深的最左边
+/// 
+
+void dfs(TreeNode* root, int height, int& curval, int& curheight) {
+    if (root == nullptr) return;
+    height++;
+    dfs(root->left, height, curval, curheight);
+    dfs(root->right, height, curval, curheight);
+    if (height > curheight) {
+        curheight = height;
+        curval = root->val;
+    }
+}
+int findBottomLeftValue(TreeNode* root) {
+    int curval = 0;
+    int curheight = 0;
+    dfs(root, 0, curval, curheight);
+    return curval;
+}
+
+
+
+/// <summary>
+/// 在每个树行中找最大值
+/// </summary>
+/// <param name="root"></param>
+/// <returns></returns>
+vector<int> largestValues(TreeNode* root) {
+    if (!root)  return {};
+    queue<TreeNode*>q;
+    q.push(root);
+    int result = 0;
+    vector<int>layer;
+    while (!q.empty())
+    {
+        
+        int layersize = q.size();
+        int a = 0;
+        for (int i = 0; i < layersize; i++)
+        {
+            TreeNode* cur = q.front();
+            q.pop();
+            a = max(a, cur->val);
+            if (cur->left)
+                q.push(cur->left);
+            if (cur->right)
+                q.push(cur->right);
+        }
+        layer.push_back(a);
+
+    }
+    return layer;
+}
+
+
+/// <summary>
+/// 二叉树的右视图
+/// </summary>
+void bfs(TreeNode* node, int height, vector<int>& nums) {
+    if (node == nullptr) return;
+
+    if (nums.size() == height) {
+        nums.push_back(node->val);
+    }
+
+    height++;
+    bfs(node->right, height, nums);
+    bfs(node->left, height, nums);
+
+}
+
+vector<int> rightSideView(TreeNode* root) {
+    vector<int>ans;
+    if (root == nullptr) return ans; // 根节点为空时直接返回空向量
+    bfs(root, 0, ans);
+    return ans;
+
+}
