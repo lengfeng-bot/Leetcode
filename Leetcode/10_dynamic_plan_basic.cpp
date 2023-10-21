@@ -155,10 +155,10 @@ int deleteAndEarn2(vector<int>& nums) {
 }
 
 
-int main() {
-
-	vector<int>nums = { 1,2,3,1 };
-	int ans = rob(nums);
-	cout << ans;
-	return 0;
-}
+//int main() {
+//
+//	vector<int>nums = { 1,2,3,1 };
+//	int ans = rob(nums);
+//	cout << ans;
+//	return 0;
+//}
