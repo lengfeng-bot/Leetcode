@@ -107,7 +107,7 @@ bool isPalindrome(ListNode* head) {
 /// <summary>
 /// 合并两个有序列表
 /// </summary>
-ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
     if (l1 == NULL) {
         return l2;
     }
@@ -124,21 +124,30 @@ ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
 }
 
 
+/// <summary>
+/// 两两交换链表中的节点
+/// </summary>
+//ListNode* swapPairs(ListNode* head) {
+//
+//}
 
-int main() {
-	ListNode* head = nullptr;
-	insertNode(head, 1);
-	insertNode(head, 2);
-	insertNode(head, 3);
-	insertNode(head, 2);
-	insertNode(head, 1);
-	printList(head);
-    //deleteList(head, 4);
-    int a = isPalindrome(head);
-    cout << a;
-    //printList(head);
 
-}
+
+
+//int main() {
+//	ListNode* head = nullptr;
+//	insertNode(head, 1);
+//	insertNode(head, 2);
+//	insertNode(head, 3);
+//	insertNode(head, 2);
+//	insertNode(head, 1);
+//	printList(head);
+//    //deleteList(head, 4);
+//    int a = isPalindrome(head);
+//    cout << a;
+//    //printList(head);
+//
+//}
 
 
 
