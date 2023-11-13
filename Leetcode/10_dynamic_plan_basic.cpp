@@ -3,6 +3,8 @@
 
 #include<iostream>
 #include<vector>
+#include <unordered_map>
+#include<unordered_set>
 using namespace std;
 
 
@@ -421,11 +423,108 @@ int maximalSquare(vector<vector<char>>& matrix) {
 /// 整数拆分
 /// </summary>
 int integerBreak(int n) {
-	int ans = 0;
-	for (int i = 1; i < n; i++)
-	{
-		int j = n - i;
-		ans = max(ans, i * j);
+	vector<int>dp(n+1, 0);
+	dp[2] = 1;
+	for (int i = 3; i <= n; i++)
+		for (int j = 1; j < i; j++)
+		{
+			dp[i] = max(dp[i], max(j * (i - j), j * dp[i - j]));
+		}
+
+	return dp[n];
+}
+
+
+/// <summary>
+/// 不同的二叉搜索树
+/// </summary>
+int numTrees(int n) {
+	vector<int>dp(n + 1, 0);
+	dp[0] = 1;
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j <= i; j++) {
+			dp[i] += dp[j - 1] * dp[i - j];
+		}
 	}
-	return ans;
+	return dp[n];
+}
+
+
+///****************************
+/// 动态规划在字符串中的应用
+///****************************
+
+/// <summary>
+/// 最长回文子串
+/// </summary>
+/// 动态规划解决
+string longestPalindrome(string s) {
+	int n = s.size();
+	if (n <= 1) {
+		return s;
+	}
+
+	vector<vector<bool>> dp(n,vector<bool>(n, false));
+
+	// 初始化长度为1的回文子串
+	for (int i = 0; i < n; i++) {
+		dp[i][i] = true;
+	}
+
+	int start = 0;  // 记录最长回文子串的起始位置
+	int maxLen = 1; // 记录最长回文子串的长度
+
+	// 动态规划填表
+	for (int len = 2; len <= n; len++) {
+		for (int i = 0; i < n - len + 1; i++) {
+			int j = i + len - 1;
+
+			if (s[i] == s[j]) {
+				if (len == 2 || dp[i + 1][j - 1]) {
+					dp[i][j] = true;
+					if (len > maxLen) {
+						maxLen = len;
+						start = i;
+					}
+				}
+			}
+		}
+	}
+
+	return s.substr(start, maxLen);
+
+}
+
+
+int main() {
+
+	string s = "abcba";
+	string ans = longestPalindrome(s);
+	for (auto an : ans)
+		cout << an;
+
+}
+
+
+/// <summary>
+/// 单词拆分
+/// </summary>
+bool wordBreak(string s, vector<string>& wordDict) {
+	int n = s.size();
+	unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+
+	vector<bool> dp(n + 1, false);
+	dp[0] = true;
+
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 0; j < i; ++j) {
+			if (dp[j] && wordSet.count(s.substr(j, i - j))) {
+				dp[i] = true;
+				break;
+			}
+		}
+	}
+
+	return dp[n];
+
 }

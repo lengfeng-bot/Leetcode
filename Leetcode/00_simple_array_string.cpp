@@ -268,40 +268,40 @@ string longestCommonPrefix(vector<string>& strs)
 /// 最长回文字符串
 /// </summary>
 
-string longestPalindrome(string s) {
-
-    int n = s.size();
-    if (n <= 1)return s;
-    string str1;
-    int m = 0;
-    int q = 0;
-    int maxLen = 0;
-    for (int i = 0; i < n; i++)
-        for (int j = i+1; j < n; j++)
-        {
-            if (s[i] == s[j])
-            {
-                m = i;
-                q = j;
-                maxLen = j - i + 1;
-                str1.push_back(s[i]);
-                cout << "the value of m:" <<m<< endl;
-                cout << "the value of n:" << q << endl;
-                
-            }
-           
-        }
-    int i = 0;
-    while (i<=q-m)
-    {
-    if (s[m++] ==s[q--])
-        {
-        //str1.push_back(s[m]);
-        }
-    }
-    return str1;
-
-}
+//string longestPalindrome(string s) {
+//
+//    int n = s.size();
+//    if (n <= 1)return s;
+//    string str1;
+//    int m = 0;
+//    int q = 0;
+//    int maxLen = 0;
+//    for (int i = 0; i < n; i++)
+//        for (int j = i+1; j < n; j++)
+//        {
+//            if (s[i] == s[j])
+//            {
+//                m = i;
+//                q = j;
+//                maxLen = j - i + 1;
+//                str1.push_back(s[i]);
+//                cout << "the value of m:" <<m<< endl;
+//                cout << "the value of n:" << q << endl;
+//                
+//            }
+//           
+//        }
+//    int i = 0;
+//    while (i<=q-m)
+//    {
+//    if (s[m++] ==s[q--])
+//        {
+//        //str1.push_back(s[m]);
+//        }
+//    }
+//    return str1;
+//
+//}
 
 
 //int main() {
