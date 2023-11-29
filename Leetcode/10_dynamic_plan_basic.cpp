@@ -496,14 +496,14 @@ string longestPalindrome(string s) {
 }
 
 
-int main() {
-
-	string s = "abcba";
-	string ans = longestPalindrome(s);
-	for (auto an : ans)
-		cout << an;
-
-}
+//int main() {
+//
+//	string s = "abcba";
+//	string ans = longestPalindrome(s);
+//	for (auto an : ans)
+//		cout << an;
+//
+//}
 
 
 /// <summary>
@@ -527,4 +527,202 @@ bool wordBreak(string s, vector<string>& wordDict) {
 
 	return dp[n];
 
+}
+
+/// <summary>
+/// 0-1背包问题！！
+/// </summary>
+/// dp[i][j]的含义：从下标为[0-i]的物品里任意取，放进容量为j的背包，价值总和最大是多少。
+int  bag01(vector<int>weight, vector<int>value, int bagweight) {
+	vector<vector<int>>dp(weight.size(), vector<int>(bagweight+1, 0));
+	
+	//初始化第一行，从大于等于bagweight开始
+	for (int i = weight[0]; i <= bagweight; i++)
+	{	
+			dp[0][i] = value[0];
+	}
+
+	for (int i = 1; i < weight.size(); i++)
+		for (int j = 1; j <= bagweight; j++)
+		{
+			if (weight[i] > j)
+				dp[i][j] = dp[i - 1][j];
+			else
+			    dp[i][j] = max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i]);
+		}
+
+	//打印dp数组
+	for (int i = 0; i < weight.size(); i++) {
+		for (int j = 0; j <= bagweight; j++)
+		{
+			cout << dp[i][j] << " ";
+		}
+		cout << endl;
+	}
+	return dp[weight.size()-1][bagweight];
+}
+
+/// <summary>
+/// 使用滚动数组优化，将二位转化为一维
+/// </summary>
+int  bag01_1(vector<int>weight, vector<int>value, int bagweight) {
+	 vector<int>dp(bagweight + 1, 0);
+
+	//初始化第一行，从大于等于bagweight开始
+	for (int i = weight[0]; i <= bagweight; i++)
+	{
+		dp[i] = value[0];
+	}
+	//先遍历物品，再遍历背包，顺序不可以换，如果遍历背包容量放在上一层，那么每个dp[j]就只会放入一个物品，即：背包里只放入了一个物品。
+	//倒序遍历的原因是，本质上还是一个对二维数组的遍历，并且右下角的值依赖上一层左上角的值，因此需要保证左边的值仍然是上一层的，从右向左覆盖。
+	for (int i = 0; i < weight.size(); i++)
+		for (int j = bagweight; j >= weight[i]; j--)
+		{
+				dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+		}
+
+	//打印dp数组
+	for (int i = 0; i <= bagweight; i++) 
+	{
+		
+			cout << dp[i] << " ";	
+	}
+	cout << endl;
+	return dp[bagweight];
+}
+
+
+//int main() {
+//	vector<int>weight = {1,3,4};
+//	vector<int>value = {15,20,30};
+//	int ans = bag01_1(weight, value,4);
+//	cout << ans;
+//}
+
+
+
+/// <summary>
+/// 完全平方数
+/// </summary>
+/// 这道题和上面的整数拆分基本上一模一样
+/// 这个代码是我自己写的，使用二维数组模拟01背包问题，虽然有点复杂，但是我想下面我会进行优化的！
+int numSquares(int n) {
+	int squareRoot = static_cast<int>(sqrt(n));
+	vector<vector<int>>dp(squareRoot + 1, vector<int>(n + 1, 0));
+
+	dp[0][0] = 0;
+
+	for (int i = 1; i <= n; i++)
+	{
+		dp[0][i] = i;
+	}
+
+	for (int j = 1; j <= n; j++) {
+		for (int i = 1; i * i <= n; i++)
+		{		
+			if(j-i*i>=0)
+				dp[i][j] = min(dp[i - 1][j], dp[i][j - i * i] + 1);
+			else
+			{
+				dp[i][j] = dp[i - 1][j];
+			}
+		}
+	}
+
+	//打印dp数组
+	for (int i = 1;  i*i <= n; i++) {
+		for (int j = 0; j <= n; j++)
+		{
+			cout << dp[i][j] << " ";
+		}
+		cout << endl;
+	}
+	return dp[squareRoot][n];
+}
+
+/// <summary>
+/// 开始进行优化
+/// </summary>
+
+int numSquares1(int n) {
+	vector<int>dp(n + 1, INT_MAX);
+
+	dp[0] = 0;
+	for (int i = 1; i <= n; i++) {
+		for (int j = 1; j * j <= i; j++)
+		{
+			dp[i] = min(dp[i], dp[i - j * j] + 1);
+		}
+	}
+
+	//打印dp数组
+	for (int j = 0; j <= n; j++)
+	{
+			cout << dp[j] << " ";
+	}
+	cout << endl;
+
+	return dp[n];
+}
+
+
+//int main() {
+//	int ans = numSquares1(10);
+//	cout << ans;
+//}
+
+
+
+/// <summary>
+/// 分割等和子集
+/// </summary>
+/// dp[j]表示 背包总容量（所能装的总重量）是j，放进物品后，背的最大重量为dp[j]。
+bool canPartition(vector<int>& nums) {
+	int sum = 0;
+	int n = nums.size();
+	vector<int>dp(10001, 0);
+	for (auto num : nums)
+		sum += num;
+
+	if (sum % 2 == 1) return false;
+	int target = sum / 2;
+
+	for (int i = 0; i < n; i++)
+		for (int j = target; j >= nums[i]; j--)// 每一个元素一定是不可重复放入，所以从大到小遍历
+		{
+			dp[j] = max(dp[j],dp[j - nums[i]] + nums[i]);
+		}
+	// 集合中的元素正好可以凑成总和target
+	if (dp[target] == target) return true;
+	return false;
+}
+
+//int main() {
+//	vector<int>nums = { 1,5,11,5 };
+//	bool ans = canPartition(nums);
+//	cout << ans;
+//}
+
+
+
+/// <summary>
+/// 最后一块石头的重量2
+/// </summary>
+/// 本题的关键就是转化为一个重要的概念，把石头尽可能分为相同重量的两堆，这样的话，这个题目简直就跟上面的题目一模一样了
+int lastStoneWeightII(vector<int>& stones) {
+	int sum = 0;
+	int n = stones.size();
+	vector<int>dp(1501, 0);
+	for (auto num : stones)
+		sum += num;
+
+	int target = sum / 2;
+
+	for (int i = 0; i < n; i++)
+		for (int j = target; j >= stones[i]; j--)// 每一个元素一定是不可重复放入，所以从大到小遍历
+		{
+			dp[j] = max(dp[j], dp[j - stones[i]] + stones[i]);
+		}
+	// 集合中的元素正好可以凑成总和target
+	return sum - dp[target] - dp[target];
 }
