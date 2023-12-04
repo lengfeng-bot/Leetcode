@@ -748,3 +748,175 @@ int findTargetSumWays(vector<int>& nums, int target) {
 		}
 	return dp[left];
 }
+
+
+/// <summary>
+/// 一和零
+/// </summary>
+/// 这道题刚开始给我看蒙了，相当于背包有两个维度的0-1背包，最好的方法是先写出一维的情况，二维情况就清楚了
+int findMaxForm(vector<string>& strs, int m, int n) {
+	vector<vector<int>>dp(m + 1 ,vector<int>(n + 1, 0));
+	for(auto str:strs)
+	{
+		int count0 = 0;
+		int count1 = 0;
+		for (auto st : str){
+			if (st == '0') count0++;
+			if (st == '1') count1++;}
+
+		for (int i = m; i >= count0; i--)
+			for (int j = n; j >= count1; j--)
+		    {
+				dp[i][j] = max(dp[i][j], dp[i - count0][j - count1]+1);
+			}
+			
+	}
+	//for (auto arr : arr0) cout << arr << " ";
+	//cout << endl;
+	//for (auto arr : arr1) cout << arr << " ";
+
+
+	return dp[m][n];
+}
+
+//int main() {
+//	vector<string>nums = { "10", "0001", "111001", "1", "0" };
+//	int ans = findMaxForm(nums,1,1);
+//}
+
+
+
+///总结
+//纯 0 - 1 背包(opens new window)是求 给定背包容量 装满背包 的最大价值是多少。
+// 
+//416. 分割等和子集(opens new window)是求 给定背包容量，能不能装满这个背包。
+// 
+//1049. 最后一块石头的重量 II(opens new window)是求 给定背包容量，尽可能装，最多能装多少
+// 
+//494. 目标和(opens new window)是求 给定背包容量，装满背包有多少种方法。
+// 
+//一和零  是求 给定背包容量(二维)，装满背包最多有多少个物品。
+
+
+
+/// <summary>
+/// 完全背包问题！
+/// 与0-1背包的唯一不同就是，每件物品都可以多次放入背包，代码与之对应的就是，背包应该从小到大进行遍历
+/// </summary>
+int  bagCom(vector<int>weight, vector<int>value, int bagweight) {
+	vector<int>dp(bagweight + 1, 0);
+
+	//初始化第一行，从大于等于bagweight开始
+	for (int i = weight[0]; i <= bagweight; i++)
+	{
+		dp[i] = value[0];
+	}
+	for (int i = 0; i < weight.size(); i++)
+		//不同之处！！
+		for (int j = weight[i]; j <= bagweight; j++)
+		{
+			dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+		}
+
+	//打印dp数组
+	for (int i = 0; i <= bagweight; i++)
+	{
+
+		cout << dp[i] << " ";
+	}
+	cout << endl;
+	return dp[bagweight];
+}
+
+
+/// <summary>
+/// 零钱兑换2
+/// </summary>
+int change(int amount, vector<int>& coins) {
+	vector<int>dp(amount + 1, 0);
+	//这里必须是1，需要体会一下
+	dp[0] = 1;
+	for (int i = 0; i < coins.size(); i++)
+		for (int j = coins[i]; j <= amount; j++)
+		{
+			dp[j] += dp[j - coins[i]];
+		}
+
+	return dp[amount];
+}
+
+
+/// <summary>
+/// 组合总和
+/// </summary>
+/// 体会一下，组合和排序有哪些区别
+/// 组合不强调顺序，而排列不同的顺序是不同的排列，所以本题是排列问题
+/// 
+int combinationSum4(vector<int>& nums, int target) {
+	vector<int>dp(target + 1, 0);
+	//这里必须是1，需要体会一下
+	dp[0] = 1;
+	for (int i = 0; i <= target; i++)
+		for (int j =0; j <nums.size(); j++)
+		{
+			if(nums[j]<=i)
+				dp[i] += dp[i - nums[j]];
+		}
+
+	for (auto d : dp)
+		cout << d << " ";
+	return dp[target];
+}
+
+
+//int main() {
+//	vector<int>nums = {1,2,3};
+//	int ans = combinationSum4(nums, 4);
+//	return 0;
+//}
+
+
+
+//假设你正在爬楼梯。需要 n 阶你才能到达楼顶。
+//每次你可以爬至多m(1 <= m < n)个台阶。你有多少种不同的方法可以爬到楼顶呢？
+//	注意：给定 n 是一个正整数。
+
+int climbStairsplus(int m,int n) {
+	vector<int>dp(n + 1, 0);
+	//这里必须是1，需要体会一下
+	dp[0] = 1;
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j < m; j++)
+		{
+			if (j <= i)
+				dp[i] += dp[i - j];
+		}
+
+	return dp[n];
+
+}
+
+
+/// <summary>
+/// 零钱兑换
+/// </summary>
+/// 这个相当于给定价值，求满足该价值的背包的最小物品数量
+int coinChange(vector<int>& coins, int amount) {
+	vector<int>dp(amount + 1, INT_MAX);
+	dp[0] = 0;
+	for (int i = 0; i < coins.size(); i++)
+		for (int j = coins[i]; j <= amount; j++)
+		{
+			if (dp[j - coins[i]] != INT_MAX)
+				dp[j] = min(dp[j], dp[j - coins[i]] + 1);
+		}
+	for (auto d : dp)
+		cout << d << " ";
+	if (dp[amount] == INT_MAX) return -1;
+	return dp[amount];
+}
+int main() {
+	vector<int>nums = {2};
+	int ans = coinChange(nums, 3);
+	return 0;
+}
