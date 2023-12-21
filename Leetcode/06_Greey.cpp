@@ -39,6 +39,100 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 
 
 /// <summary>
+/// 反着来也行
+/// </summary>
+int findContentChildren2(vector<int>& g, vector<int>& s) {
+    sort(g.begin(), g.end());
+    sort(s.begin(), s.end()); 
+    int count = 0;
+    int i = g.size() - 1;
+    int j = s.size()-1;
+    while (i>=0&&j>=0)
+    {
+        if (g[i] > s[j]) i--;
+        else
+        {
+            count++;
+            i--;
+            j--;
+        }
+    }
+    return count;
+}
+
+
+//int main() {
+//    // 示例输入
+//    vector<int> g = { 1, 2, 3 };
+//    vector<int> s = { 1, 1 };
+//
+//    // 调用函数并输出结果
+//    int result = wtf(g, s);
+//    cout << "最大满足条件的小孩数量是: " << result << endl;
+//
+//    return 0;
+//}
+
+
+/// <summary>
+/// 摆动序列
+/// </summary>
+/// 直接先把数组相邻数的插值算出来，如果连续符号相同，不加，等出现符号不同的时候再加
+/// 这个题目最重要的是要注意等于的情况，分好几种情况讨论
+int wiggleMaxLength(vector<int>& nums) {
+    if (nums.size() < 2) {
+        return nums.size();  // 数组长度小于2，直接返回数组长度
+    }
+
+    int result = 1;  // 最长摆动序列的初始长度为1
+    int prevDiff = 0;  // 前一个元素与当前元素的差值
+
+    for (int i = 1; i < nums.size(); ++i) {
+        int currDiff = nums[i] - nums[i - 1];
+        // 如果当前差值与前一个差值不同号，表示摆动趋势
+        if ((currDiff > 0 && prevDiff <= 0) || (currDiff < 0 && prevDiff >= 0)) {
+            result++;  // 增加摆动序列的长度
+            prevDiff = currDiff;  // 更新前一个差值
+        }
+    }
+
+    return result;
+}
+
+//int main() {
+//    vector<int> nums1 = { 1, 7, 4, 9, 2, 5 };
+//    vector<int> nums2 = { 1, 4, 7, 2, 5 };
+//    vector<int> nums3 = { 1, 7, 4, 5, 5 };
+//
+//    cout << "最长摆动序列的长度：" << wiggleMaxLength(nums1) << endl;  // 输出：6
+//    cout << "最长摆动序列的长度：" << wiggleMaxLength(nums2) << endl;  // 输出：4
+//    cout << "最长摆动序列的长度：" << wiggleMaxLength(nums3) << endl;  // 输出：4
+//
+//    return 0;
+//}
+
+
+
+/// <summary>
+/// 最大子数组和
+/// </summary>
+/// 这个有点难想啊，思路就是累加和为负数的时候，直接抛弃，从下一个数重新计算。这样就可以一直取到局部最优
+int maxSubArray(vector<int>& nums) {
+    int n = nums.size();
+    int sum = 0;
+    int result = INT32_MIN;
+    for (int i = 0; i < n; i++)
+    {  
+        sum += nums[i];
+        if (sum > result) { // 取区间累计的最大值（相当于不断确定最大子序终止位置）
+            result = count;
+        }
+        if (sum <= 0) sum = 0; // 相当于重置最大子序起始位置，因为遇到负数一定是拉低总和
+    }
+    return result;
+}
+
+/// <summary>
 /// 柠檬水找零
 /// </summary>
 /// 这尼玛，不就是把所有情况列出来吗。。。

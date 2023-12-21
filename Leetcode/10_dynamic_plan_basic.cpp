@@ -507,29 +507,6 @@ string longestPalindrome(string s) {
 
 
 /// <summary>
-/// 单词拆分
-/// </summary>
-bool wordBreak(string s, vector<string>& wordDict) {
-	int n = s.size();
-	unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
-
-	vector<bool> dp(n + 1, false);
-	dp[0] = true;
-
-	for (int i = 1; i <= n; ++i) {
-		for (int j = 0; j < i; ++j) {
-			if (dp[j] && wordSet.count(s.substr(j, i - j))) {
-				dp[i] = true;
-				break;
-			}
-		}
-	}
-
-	return dp[n];
-
-}
-
-/// <summary>
 /// 0-1背包问题！！
 /// </summary>
 /// dp[i][j]的含义：从下标为[0-i]的物品里任意取，放进容量为j的背包，价值总和最大是多少。
@@ -901,6 +878,7 @@ int climbStairsplus(int m,int n) {
 /// 零钱兑换
 /// </summary>
 /// 这个相当于给定价值，求满足该价值的背包的最小物品数量
+/// dp[j]含义是，总金额为j时，凑出给定价值的最小数量
 int coinChange(vector<int>& coins, int amount) {
 	vector<int>dp(amount + 1, INT_MAX);
 	dp[0] = 0;
@@ -915,8 +893,131 @@ int coinChange(vector<int>& coins, int amount) {
 	if (dp[amount] == INT_MAX) return -1;
 	return dp[amount];
 }
-int main() {
-	vector<int>nums = {2};
-	int ans = coinChange(nums, 3);
+//int main() {
+//	vector<int>nums = {2};
+//	int ans = coinChange(nums, 3);
+//	return 0;
+//}
+
+
+
+/// <summary>
+/// 单词拆分
+/// </summary>
+bool wordBreak(string s, vector<string>& wordDict) {
+	int n = s.size();
+	unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+
+	vector<bool> dp(n + 1, false);
+	dp[0] = true;
+
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 0; j < i; ++j) {
+			if (dp[j] && wordSet.count(s.substr(j, i - j))) {
+				dp[i] = true;
+				break;
+			}
+		}
+	}
+
+	return dp[n];
+
+}
+
+
+/// <summary>
+/// 解决智力问题
+/// </summary>
+/// dp[j]代表解决前j道题目获得的最高分数
+/// 这个太难了，前面题目的选择决定了后面的结果  ，要用到无后效性，啥玩意啊
+long long mostPoints(vector<vector<int>>& questions) {
+	int n = questions.size();
+	vector<long long>dp(n + 1, 0);
+	long long ans = 0;
+	for (int i = 0; i < questions.size(); i++) {
+		dp[i] = questions[i][0];
+		for (int j = 0; j < i; j++) {
+			if (i - j > questions[j][1]) dp[i] = max(dp[i], dp[j] + questions[i][0]);
+		}
+		ans = max(ans, dp[i]);
+	}
+
+	return ans;
+}
+
+
+//int main() {
+//	vector<vector<int>>nums = { {3,2},{4,3},{4,4},{2,5} };
+//	long long ans = mostPoints(nums);
+//	return 0;
+//}
+
+/// <summary>
+/// 打家劫舍Ⅱ
+/// </summary>
+/// 这个地方所有的房屋都 围成一圈 ，这意味着第一个房屋和最后一个房屋是紧挨着的。
+/// 同时，相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警 。
+/// 这道题可以转化为两个基础的打家劫舍，因为首尾相连的话，就相当于首和尾只能取一个，按照这个思路，取两次结果的最大，就是最终的结果
+int rob2(vector<int>& nums) {
+	int n = nums.size();
+	if (n == 0) {
+		return 0;
+	}
+	if (n == 1) {
+		return nums[0];
+	}
+	
+	vector<int>dp1(n, 0);
+	vector<int>dp2(n+1, 0);
+	dp1[0] = 0;
+	dp1[1] = nums[0];
+	dp2[0] = 0;
+	dp2[1] =0;
+	//从0:n-1个房子dp
+	for (int i = 2; i <= n-1; i++)
+	{
+		dp1[i] = max(dp1[i - 1], dp1[i - 2] + nums[i - 1]);
+	}
+	//从1:n个房子dp
+	for (int i = 2; i <= n; i++)
+	{
+		dp2[i] = max(dp2[i - 1], dp2[i - 2] + nums[i - 1]);
+	}
+
+	return max(dp1[n - 1], dp2[n]);
+}
+
+
+
+/// <summary>
+/// 买股票的最佳时机1
+/// </summary>
+/// <param name="prices"></param>
+/// <returns></returns>
+int maxProfit(vector<int>& prices) {
 	return 0;
+}
+
+
+/// <summary>
+/// 最低票价
+/// </summary>
+/// 我们定义dp数组 f ，其中 f[i] 表示达到 day[i] 所需要的最低消费。
+///根据题意，我们有三种方法可以到达 day[i]， 假设我们是从 days[j] 到达 day[i] 。
+int mincostTickets(vector<int>& days, vector<int>& costs) {
+	int n = days.size();
+	vector<int>dp(days.size()+1, 0);
+	dp[0] = 0;
+	for (int i =0 ; i < n; i++)
+	{
+		
+		dp[i+1] = dp[i] + costs[0];
+		for (int j = i-1; j >=0; j--)
+		{	int dif = days[i] - days[j];
+		if (dif < 7) dp[i+1] = min(dp[i+1], dp[j] + costs[1]);
+		if (dif < 30)dp[i+1] = min(dp[i+1], dp[j] + costs[2]);
+		else break;
+		}
+	}
+	return dp[n];
 }
