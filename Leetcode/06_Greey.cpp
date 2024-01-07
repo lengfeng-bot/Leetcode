@@ -125,7 +125,7 @@ int maxSubArray(vector<int>& nums) {
     {  
         sum += nums[i];
         if (sum > result) { // 取区间累计的最大值（相当于不断确定最大子序终止位置）
-            result = count;
+            //result = count;
         }
         if (sum <= 0) sum = 0; // 相当于重置最大子序起始位置，因为遇到负数一定是拉低总和
     }
@@ -365,4 +365,35 @@ int splitNum(int num) {
             num2 = num2 * 10 + (stnum[i] - '0');
     }
     return num1 + num2;
+}
+
+
+/// <summary>
+/// 加油站
+/// </summary>
+int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+    int n = gas.size();
+    int i = 0;
+    while (i < n) {
+        int sumOfGas = 0, sumOfCost = 0;
+        int cnt = 0;
+        while (cnt < n) {
+            int j = (i + cnt) % n;
+            sumOfGas += gas[j];
+            sumOfCost += cost[j];
+            if (sumOfCost > sumOfGas) {
+                break;
+            }
+            cnt++;
+        }
+        if (cnt == n) {
+            return i;
+        }
+        else {
+            i = i + cnt + 1;
+        }
+    }
+    return -1;
+
+
 }
