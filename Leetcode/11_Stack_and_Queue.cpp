@@ -216,16 +216,20 @@ vector<int> nextGreaterElements2(vector<int>& nums) {
 //	return sum;
 //}
 
+/// <summary>
+/// 我看明白了,先求出右边第一个更大的元素，同时该栈顶元素的下一个元素就是左边更大元素，然后按行(横向)求解，分别求出高和宽。我上面的是按照列求解的
+/// </summary>
 int trap(vector<int>& height) {
 	stack<int> st;
-	st.push(0);
 	int sum = 0;
-	for (int i = 1; i < height.size(); i++) {
+	int n = height.size();
+	for (int i = 0; i < n; i++)
+	{
 		while (!st.empty() && height[i] > height[st.top()]) {
 			int mid = st.top();
 			st.pop();
 			if (!st.empty()) {
-				int h = min(height[st.top()], height[i]) - height[mid];
+				int h = min(height[i], height[st.top()]) - height[mid];
 				int w = i - st.top() - 1;
 				sum += h * w;
 			}
@@ -235,17 +239,48 @@ int trap(vector<int>& height) {
 	return sum;
 }
 
+//int main() {
+//	vector<int>nums = { 4,2,0,3,2,5 };
+//	int a = trap(nums);
+//	cout <<endl<< a;
+//	return 0;
+//}
 
 
-int main() {
-	vector<int>nums = { 4,2,0,3,2,5 };
-	int a = trap(nums);
-	cout <<endl<< a;
-	return 0;
+/// <summary>
+/// 柱状图中最大的矩形
+/// </summary>
+/// 这道题和接雨水太像了，一个是求两边更大元素，一个求两边更小元素。但是需要注意的是
+int largestRectangleArea(vector<int>& heights) {
+	
+	stack<int>s;
+	int sum = 0;
+	//首尾都加上0的话，每个元素两边都有更小元素了
+
+	heights.insert(heights.begin(), 0); // 数组头部加入元素0
+	heights.push_back(0); // 数组尾部加入元素0
+	int n = heights.size();
+	for (int i = 0; i < n; i++)
+	{
+		while (!s.empty() && heights[i] < heights[s.top()]) {
+			int mid = s.top();
+			s.pop();
+			sum = max(sum, (heights[mid] * (i - s.top() - 1)));
+			
+		}
+		s.push(i);
+	}
+
+
+	return sum;
+
 }
-
-
-
+//int main() {
+//	vector<int>nums = { 2,1,5,6,2,3 };
+//	int a = largestRectangleArea(nums);
+//	cout <<endl<< a;
+//	return 0;
+//}
 
 
 
@@ -312,7 +347,22 @@ private:
 /// 队列中可以看到的人数
 /// </summary>
 vector<int> canSeePersonsCount(vector<int>& heights) {
-	int n = heights.size();
-	vector<int>ans(n, 0); return ans;
+        int n = heights.size();
+        stack<int> stack;
+        vector<int> res(n, 0);
+		//除了最后一个人，其余的人都能看到相邻右边的人，如果右边的人比自己矮，
+		// 则进入循环，加一，如果右边的人比自己高，那么不进入循环，此时栈不为空，加一
+        for (int i = n - 1; i >= 0; i--) {
+            int h = heights[i];
+            while (!stack.empty() && stack.top() < h) {
+                stack.pop();
+                res[i] += 1;
+            }
+            if (!stack.empty()) {
+                res[i] += 1;
+            }
+            stack.push(h);
+        }
+        return res;
 
 }
