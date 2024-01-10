@@ -3,7 +3,7 @@
 #include<unordered_map>
 #include<algorithm>
 #include<string>
-
+#include<unordered_set>
 using namespace std;
 
 //可以使用「贪心算法」的问题需要满足的条件
@@ -275,14 +275,11 @@ vector<vector<int>> mergeIntervals(vector<vector<int>>& intervals) {
 /// </summary>
 bool canJump(vector<int>& nums) {
 
-    if (nums.size() == 1) return true;
-    int ans = 0;
-    for (int i = 0; i < nums.size() - 1; i++)
-    {
-        if (ans >= i)
-            ans = max(i + nums[i], ans);
-        if (ans >= nums.size() - 1)
-            return true;
+    int cover = 0;
+    if (nums.size() == 1) return true; // 只有一个元素，就是能达到
+    for (int i = 0; i <= cover; i++) { // 注意这里是小于等于cover
+        cover = max(i + nums[i], cover);
+        if (cover >= nums.size() - 1) return true; // 说明可以覆盖到终点了
     }
     return false;
 
@@ -371,29 +368,104 @@ int splitNum(int num) {
 /// <summary>
 /// 加油站
 /// </summary>
+/// 关键在于设置一个当前和和累加和，遍历数组，若当前和小于0，就说明这个点不可能作为起点，直接下一个。
+/// 走完一圈要保证每个点油剩余量都要大于等于0
 int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
     int n = gas.size();
-    int i = 0;
-    while (i < n) {
-        int sumOfGas = 0, sumOfCost = 0;
-        int cnt = 0;
-        while (cnt < n) {
-            int j = (i + cnt) % n;
-            sumOfGas += gas[j];
-            sumOfCost += cost[j];
-            if (sumOfCost > sumOfGas) {
-                break;
+    int curcost = 0;
+    int sumcost = 0;
+    int a = 0;
+    for (int i = 0; i < n; i++)
+    {
+            curcost += gas[i]-cost[i];
+            sumcost += gas[i]-cost[i];
+            if (curcost < 0)
+            {
+                a = (i + 1) % n;
+                curcost = 0;
             }
-            cnt++;
-        }
-        if (cnt == n) {
-            return i;
+   }
+    if (sumcost >= 0) return a;
+    else return -1;
+}
+
+/// <summary>
+/// 分发糖果
+/// </summary>
+/// 我敲！！！这困难题也不难嘛，我就想着试一下，没想到一下拿下了！
+/// 关键在于要遍历两边，从左到右和从右到左
+int candy(vector<int>& ratings) {
+    int n = ratings.size();
+    vector<int>ans(n, 1);
+    for (int i = 0; i < n-1; i++)
+    {
+        if (ratings[i + 1] > ratings[i]) ans[i + 1] = ans[i] + 1;
+        else if (ratings[i + 1] < ratings[i]) 
+            if(ans[i]==ans[i+1])ans[i]++;
+    }
+
+    for (int i = n - 1; i > 0; i--)
+    {
+       if (ratings[i - 1] > ratings[i]) ans[i - 1] = max(ans[i - 1], ans[i] + 1);
+       else if (ratings[i - 1] < ratings[i]) 
+            if (ans[i] == ans[i - 1])  ans[i]++;
+            
+     }
+
+    int sum = 0;
+    for (auto a : ans) sum += a;
+
+    return sum;
+}
+
+
+/// <summary>
+/// 根据身高重建队列
+/// </summary>
+vector<vector<int>> reconstructQueue1(vector<vector<int>>& people) {
+    vector<vector<int>>ans(people.size(), std::vector<int>(2, -1));
+    sort(people.begin(), people.end(), [](vector<int>a, vector<int>b) {return a[0] < b[0]; });
+    unordered_set<int> seenNumbers;
+    int n = people.size();
+    for (int i = 0; i < n; i++)
+    {
+        int num = people[i][1];
+        if (seenNumbers.count(num) > 0) {
+            ans[num] = people[i];
+            int j = i;
+            while (j>=0) {        
+                ans[j + 1] = ans[j];
+                j--;
+            }
         }
         else {
-            i = i + cnt + 1;
+            seenNumbers.insert(people[i][1]);
+            ans[num] = people[i];
         }
     }
-    return -1;
-
-
+    return ans;
 }
+
+/// <summary>
+/// 这是正确答案，我怎么就写不出来呢！！
+/// </summary>
+static bool cmp(const vector<int>& a, const vector<int>& b) {
+    if (a[0] == b[0]) return a[1] < b[1];
+    return a[0] > b[0];
+}
+vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+    sort(people.begin(), people.end(), cmp);
+    vector<vector<int>> que;
+    for (int i = 0; i < people.size(); i++) {
+        int position = people[i][1];
+        que.insert(que.begin() + position, people[i]);
+    }
+    return que;
+}
+
+//int main() {
+//    vector<vector<int>> people = { {2,3},{1,5},{6,7} };
+//    vector<vector<int>>a = reconstructQueue(people);
+//    return 0;
+//}
+
