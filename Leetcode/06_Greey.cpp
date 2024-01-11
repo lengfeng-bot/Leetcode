@@ -200,6 +200,36 @@ int eraseOverlapIntervals(vector<vector<int>>& intervals) {
     return count;
 }
 
+/// <summary>
+/// 上面这个是按照结束位置从大到小排序的，我写一个按照起始位置从大到小的代码
+/// </summary>
+int eraseOverlapIntervals2(vector<vector<int>>& intervals) {
+    if (intervals.empty()) {
+        return 0;
+    }
+
+    // 按结束时间升序排序
+    sort(intervals.begin(), intervals.end(), [](const std::vector<int>& a, const std::vector<int>& b) {
+        return a[0] < b[0];
+        });
+    int count = 0; // 记录需要移除的区间数量
+    int end = intervals[0][1]; // 当前所选区间的结束时间
+
+    for (int i = 1; i < intervals.size(); ++i) {
+        if (intervals[i][0] < end) {
+            // 当前区间与前一个区间重叠，需要移除一个区间
+            count++;
+            //选取更小的结束时间
+            end = min(end, intervals[i][1]);
+        }
+        else {
+            // 当前区间与前一个区间不重叠，更新结束时间
+            end = intervals[i][1];
+        }
+    }
+
+    return count;
+
 
 
 //用最少数量的箭引爆气球
@@ -229,6 +259,67 @@ int findMinArrowShots(vector<vector<int>>& points) {
     }
 
     return arrows;
+}
+
+///第二次做，好不容易写出来了，居然说我超时？？这就一层循环啊，还有天理没？
+//耗时少的答案见209行
+int findMinArrowShots2(vector<vector<int>>& points) {
+
+    sort(points.begin(), points.end(), [](vector<int>a, vector<int>b) {if (a[0] == b[0])return a[1] < b[1]; return a[0] < b[0]; });
+    int n = points.size();
+    int start = points[0][0];
+    int end = points[0][1];
+    int count = 1;
+    for (int i = 1; i < n; i++)
+    {
+
+        if (points[i][0] <= end) {
+            start = max(start, points[i][0]);
+            end = min(end, points[i][1]);
+        }
+
+        else
+        {
+            count++;
+            start = points[i][0];
+            end = points[i][1];
+        }
+
+    }
+    return count;
+
+}
+
+
+
+/// <summary>
+/// 划分字母区间
+/// </summary>
+/// 我的想法是这样的。先用一个集合或者哈希表找出每个字母出现的起始位置，然后对于不同字母不同的区间进行划分
+/// 被包含的小区间与大区间合并
+/// 有交集的区间合并
+/// 这样获得的就是没有交集区间就是分割的次数，为了保证尽可能划分最多的区间，每当区间起始点相等，当作不同区间。
+/// 
+/// 你这思路太复杂了，，，官方这个思路太优雅了！！两行代码，哈希表统计每个字符出现的最后位置。
+/// 然后用一个巧妙地判断，彻底拿下!
+vector<int> partitionLabels(string s) {
+    vector<int>ans;
+    int hash[27] = { 0 }; // i为字符，hash[i]为字符出现的最后位置
+    for (int i = 0; i < s.size(); i++) { // 统计每一个字符最后出现的位置
+        hash[s[i] - 'a'] = i;
+    }
+    int left = 0;
+    int right = 0;
+    for (int i = 0; i < s.size(); i++)
+    {
+        right = max(right, hash[s[i] - 'a']);
+        if (right = i) {
+            ans.push_back(right - left + 1);
+            left = i + 1;
+        }
+
+    }
+    return ans;
 }
 
 
@@ -468,4 +559,3 @@ vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
 //    vector<vector<int>>a = reconstructQueue(people);
 //    return 0;
 //}
-
