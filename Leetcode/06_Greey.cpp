@@ -229,6 +229,7 @@ int eraseOverlapIntervals2(vector<vector<int>>& intervals) {
     }
 
     return count;
+}
 
 
 
@@ -346,9 +347,26 @@ vector<vector<int>> mergeIntervals(vector<vector<int>>& intervals) {
 
 }
 
+/// <summary>
+/// 第二遍自己做的，相当于一个正常的模拟
+/// </summary>
+vector<vector<int>> merge2(vector<vector<int>>& intervals) {
+    sort(intervals.begin(), intervals.end());
+    vector<vector<int>>ans;
+    ans.push_back(intervals[0]);
+    int right = intervals[0][1];
+    int j = 0;
+    for (int i =1 ; i < intervals.size(); i++)
+    {
+        if (intervals[i][0] > right) { ans.push_back(intervals[i]); right = intervals[i][1];  j++; }
+        else { right = max(right, intervals[i][1]); ans[j][1] = right; }
+
+    }
+    return ans;
+}
 //int main() {
-//    vector<vector<int>> intervals = { {1, 3}, {2, 6}, {8, 10}, {15, 18} };
-//    vector<vector<int>> merged = mergeIntervals(intervals);
+//    vector<vector<int>> intervals = { {2,3},{1,3},{5,7},{4,6} };
+//    vector<vector<int>> merged = merge2(intervals);
 //
 //    cout << "合并后的区间：" << endl;
 //    for (const vector<int>& interval : merged) {
@@ -559,3 +577,29 @@ vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
 //    vector<vector<int>>a = reconstructQueue(people);
 //    return 0;
 //}
+
+/// <summary>
+/// 单调递增的数字
+/// </summary>
+/// 我的思路是，首先进行判断，若这个数字递增（大于等于），返回本身，否则从不递增的数字开始，前面不变，当前数减一。后面补9
+/// 487 -> 479 这种情况，百位不变，只变十位
+/// 实际上上面的方法能解决 296/308个示例，没法解决这种668841
+/// 应该从后往前遍历，而且不要break
+int monotoneIncreasingDigits(int n) {
+    string s = to_string(n);
+    int fig = s.size();
+    bool isincrease = true;
+    for (int i = s.size() - 1; i > 0; i--) {
+        if (s[i - 1] > s[i]) {
+            fig = i;
+            s[i - 1]--;
+        }
+    }
+
+    for (int i = fig; i < s.size(); i++)
+    {
+        s[i] = '9';
+    }
+    return stoi(s);
+
+}

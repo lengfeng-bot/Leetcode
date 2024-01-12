@@ -99,3 +99,14 @@ int minLength2(string s) {
 	// 栈中剩余字符的数量即为最终字符串的最小可能长度
 	return stack.size();
 }
+
+
+int addMinimum(string word) {
+	int n = word.size(), cnt = 1;
+	for (int i = 1; i < n; i++) {
+		if (word[i] <= word[i - 1]) {
+			cnt++;
+		}
+	}
+	return cnt * 3 - n;
+}
