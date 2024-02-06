@@ -331,3 +331,58 @@ ListNode* getIntersectionNode(ListNode* headA, ListNode* headB) {
     // 返回交叉点或 nullptr
     return pA;
 }
+
+
+/// <summary>
+/// 两两交换链表中的节点
+/// </summary>
+ListNode* swapPairs(ListNode* head) {
+    ListNode* dummyHead = new ListNode(0);
+    dummyHead->next = head;
+    ListNode* pre = dummyHead;
+
+
+    while (pre->next->next !=nullptr&& pre->next!=nullptr)
+    {   
+        ListNode* cur = pre->next;
+        ListNode* nxt = cur->next;
+
+        pre->next = nxt;
+        cur->next = nxt->next;
+        nxt->next = cur;
+
+        pre = cur;
+        
+
+    }
+    ListNode* ans = dummyHead->next;
+    delete dummyHead;
+    return ans;
+}
+
+
+//int main() {
+//    // 创建一个示例链表：1 -> 2 -> 6 -> 3 -> 4 -> 5 -> 6
+//    ListNode* head = new ListNode(0);
+//    head->next = new ListNode(1);
+//    head->next->next = new ListNode(2);
+//    head->next->next->next = new ListNode(3);
+//    head->next->next->next->next = new ListNode(4);
+//    /*head->next->next->next->next->next = new ListNode(5);
+//    head->next->next->next->next->next->next = new ListNode(6);*/
+//
+//    std::cout << "原始链表：" << std::endl;
+//    printList(head);
+//
+//    head = swapPairs(head);
+//    printList(head);
+//
+//    // 释放链表内存
+//    while (head) {
+//        ListNode* temp = head;
+//        head = head->next;
+//        delete temp;
+//    }
+//
+//    return 0;
+//}

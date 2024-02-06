@@ -7,6 +7,28 @@ using namespace std;
 
 
 
+/// <summary>
+/// 字符串解码
+/// </summary>
+/// 涉及到配对的[,]或者(,)的情况，一般用栈来储存找到相应的配对
+string decodeString(string s) {
+	int n = s.size();
+	string ans;
+	stack<char>check;
+	for (int i = 0; i < n; i++)
+	{
+		if (s[i] >= 'a' && s[i] <= 'z')
+			ans.push_back(s[i]);
+		else if(s[i]=='[')
+		{
+			check.push(s[i]);
+
+		}
+
+	}
+	return ans;
+}
+
 /// 介绍几个单调栈的题目
 /// 
 /// 
@@ -366,3 +388,10 @@ vector<int> canSeePersonsCount(vector<int>& heights) {
         return res;
 
 }
+
+
+
+
+///双端队列
+
+//优先队列(堆)
