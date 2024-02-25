@@ -36,7 +36,9 @@ void printList(ListNode* head) {
     std::cout << "nullptr" << std::endl;
 }
 
-
+/// <summary>
+/// 删除链表1
+/// </summary>
 void deleteList(ListNode* &head,int value) {
     ListNode*  pre= head;
     ListNode* cur = head->next;
@@ -56,6 +58,37 @@ void deleteList(ListNode* &head,int value) {
     }
 
 }
+
+/// <summary>
+/// 删除链表2
+/// </summary>
+ListNode* deleteDuplicates(ListNode* head) {
+    ListNode* pre = head;
+    ListNode* cur = head->next;
+    int value;
+    while (cur)
+    {
+        if (cur->val == pre->val) {
+            pre->next = cur->next;
+            delete cur;
+            cur = pre->next;
+            value = pre->val;
+        }
+
+        else
+        {
+            if (pre->val == value) {
+                cur->next = cur->next->next;
+                pre->next = cur->next;
+                delete pre;
+            }
+            pre = cur;
+            cur = cur->next;
+        }
+    }
+    return head;
+}
+
 
 /// <summary>
 /// 反转链表

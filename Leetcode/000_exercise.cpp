@@ -2,6 +2,7 @@
 #include<vector>
 #include<algorithm>
 #include<string>
+#include<unordered_map>
 
 using namespace std;
 
@@ -109,4 +110,178 @@ int addMinimum(string word) {
 		}
 	}
 	return cnt * 3 - n;
+}
+
+/// <summary>
+/// 先用哈希表统计字母出现的次数，之后从打字母开始排序，oush到ans,每个字母最多可以push Limit次数个。
+/// 如果多于限制，补充下一个更小的字母添加，如果多余限制的是最后一位字母，就直接不添加了
+/// </summary>
+string repeatLimitedString(string s, int repeatLimit) {
+	int cnt[26]{};
+	for (char& c : s) {
+		++cnt[c - 'a'];
+	}
+	string ans;
+	for (int i = 25, j = 24; ~i; --i) {
+		j = min(j, i - 1);
+		while (1) {
+			for (int k = min(cnt[i], repeatLimit); k; --k) {
+				ans += 'a' + i;
+				--cnt[i];
+			}
+			if (cnt[i] == 0) {
+				break;
+			}
+			while (j >= 0 && cnt[j] == 0) {
+				--j;
+			}
+			if (j < 0) {
+				break;
+			}
+			ans += 'a' + j;
+			--cnt[j];
+		}
+	}
+	return ans;
+}
+
+void setZeroes1(vector<vector<int>>& matrix) {
+	int m = matrix.size();
+	int n = matrix[0].size();
+	vector<int> row(m), col(n);
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			if (!matrix[i][j]) {
+				row[i] = col[j] = true;
+			}
+		}
+	}
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			if (row[i] || col[j]) {
+				matrix[i][j] = 0;
+			}
+		}
+	}
+
+}
+
+void printmatrix(vector<vector<int>>& matrix)
+{
+	int m = matrix.size();
+	int n = matrix[0].size();
+	for (int i = 0; i < m; i++)
+	{
+		for (int j = 0; j < n; j++) {
+			cout << matrix[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+
+//int main() {
+//	vector<vector<int>> matrix = { {1,1,1},{1,0,1},{1,1,1} };
+//	printmatrix(matrix);
+//	cout << endl;
+//	setZeroes1(matrix);
+//	printmatrix(matrix);
+//	return 0;
+//}
+
+/// <summary>
+/// 拿出最少的魔法豆
+/// </summary>
+/// 这一看就是一个贪心或者动态规划的题目，先用动态规划做一下。dp[i]的定义是把第i个当作基准，需要拿出魔法豆的最少数目
+/// 时间复杂度是O(n2) 居然超时了！！
+/// 想想能否用其他方法解答，减少时间。
+int minimumRemoval(vector<int>& beans) {
+	int n = beans.size();
+	vector<int>dp(n, 0);
+	sort(beans.begin(), beans.end());
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+			dp[i] += (beans[i] <= beans[j]) ? (beans[j] - beans[i]) : beans[j];
+
+	}
+	int ans = INT_MAX;
+	for (auto d : dp) {
+		ans = min(ans, d);
+		cout << d;cout << endl;
+	}
+		
+	return ans;
+
+}
+/// <summary>
+/// 好吧，是一个比较简单的前缀和问题，思路和dp差不多
+/// </summary>
+//int minimumRemoval2(vector<int>& beans) {
+//	int n = beans.size();
+//	sort(beans.begin(), beans.end());
+//	long long total = accumulate(beans.begin(), beans.end(), 0LL); // 豆子总数
+//	long long res = total; // 最少需要移除的豆子数
+//	for (int i = 0; i < n; i++) {
+//		res = min(res, total - (long long)beans[i] * (n - i));
+//	}
+//	return res;
+//}
+
+//int main() {
+//	vector<int>beans = {2,10,3,2 };
+//	int ans = minimumRemoval(beans);
+//	cout << ans;
+//}
+
+
+
+/// <summary>
+/// 找到所有字母异位词
+/// </summary>
+vector<int> findAnagrams(string s, string p) {
+
+	int sLen = s.size(), pLen = p.size();
+
+	if (sLen < pLen) {
+		return vector<int>();
+	}
+
+	vector<int> ans;
+	vector<int> sCount(26);
+	vector<int> pCount(26);
+	for (int i = 0; i < pLen; ++i) {
+		++sCount[s[i] - 'a'];
+		++pCount[p[i] - 'a'];
+	}
+
+	if (sCount == pCount) {
+		ans.emplace_back(0);
+	}
+	for (int i = 0; i < sLen - pLen; ++i) {
+		--sCount[s[i] - 'a'];
+		++sCount[s[i + pLen] - 'a'];
+
+		if (sCount == pCount) {
+			ans.emplace_back(i + 1);
+		}
+	}
+
+	return ans;
+
+}
+
+
+/// <summary>
+/// 使数组和小于等于×的最少时间
+/// </summary>
+int minimumTime(vector<int>& nums1, vector<int>& nums2, int x) {
+	int sum2 = 0;
+	int nummax = 0;
+	for (auto num : nums2) {
+	sum2 += num;
+	nummax = max(nummax, num);
+	}
+	if (sum2 - nummax > x)  return -1;
+	return 0;
 }
