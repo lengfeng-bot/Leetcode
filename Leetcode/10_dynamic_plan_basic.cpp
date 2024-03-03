@@ -5,6 +5,7 @@
 #include<vector>
 #include <unordered_map>
 #include<unordered_set>
+#include<deque>
 using namespace std;
 
 
@@ -1020,4 +1021,61 @@ int mincostTickets(vector<int>& days, vector<int>& costs) {
 		}
 	}
 	return dp[n];
+}
+
+
+/// <summary>
+/// 跳跃游戏4
+/// </summary>
+/// 我的第一个思路是用动态规划解答。dp[i]表示走到第i个元素时候的最大得分。这样的话，走到下一个元素的最大的分
+/// 要么选择当前元素，要么是从之前的dp[i]中跳转到的。之前简单情况下，直接选择是否取当前元素就可以了。但是这道题可以跳跃k步，是不是更复杂一些？
+/// 解决办法，再加一个for循环循环k，就好了！成功运行，但是只通过部分示例。。。
+/// 原因是超过时间限制了！！！！想想如何优化
+int maxResult(vector<int>& nums, int k) {
+	int n = nums.size();
+	vector<int>dp(n,0);
+	dp[0] = nums[0];
+	for (int i = 1; i < n; i++)
+		for (int j = 1; j <= k; j++)
+		{
+			if (i- j >= 0)
+				dp[i] = max(dp[i - 1], dp[i  - j]) + nums[i];
+			else  break;
+ 		}
+
+	for (auto d : dp) cout << d<<" ";
+	cout << endl;
+	return dp[n - 1];
+}
+
+
+/// <summary>
+/// 没想出来，看了一下题解，转移来自定长区间，可以使用单调队列优化dp场景。
+/// 之前没有接触过单调队列，单调队列对于滑动窗口很有用，值得了解一下。接下来做几道单调队列的题目
+/// 先贴一下官方代码
+int maxResult1(vector<int>& nums, int k) {
+	int n = nums.size();
+	vector<int> dp(n);
+	dp[0] = nums[0];
+	deque<int> queue;
+	queue.push_back(0);
+	for (int i = 1; i < n; i++) {
+		while (!queue.empty() && queue.front() < i - k) {
+			queue.pop_front();
+		}
+		dp[i] = dp[queue.front()] + nums[i];
+		while (!queue.empty() && dp[queue.back()] <= dp[i]) {
+			queue.pop_back();
+		}
+		queue.push_back(i);
+	}
+	return dp[n - 1];
+}
+
+
+int main() {
+	vector<int>nums = { 1,-1,-2,4,-7,3 };
+	int ans = maxResult1(nums, 2);
+	cout << ans << endl;
+	return 0;
 }
