@@ -3,7 +3,7 @@
 #include<algorithm>
 #include<string>
 #include<unordered_map>
-
+#include<unordered_set>
 using namespace std;
 
 vector<int> findPeaks(vector<int>& mountain) {
@@ -285,3 +285,131 @@ int minimumTime(vector<int>& nums1, vector<int>& nums2, int x) {
 	if (sum2 - nummax > x)  return -1;
 	return 0;
 }
+
+
+
+//int removeElement(vector<int>& nums, int val) {
+//	int k = 0;
+//	while (k < nums.size())
+//	{
+//		if (nums[k] == val) {
+//			int x = nums[nums.size() - 1];
+//			nums[k] = x;
+//			nums.pop_back();
+//		}
+//		else k++;
+//	}
+//	return nums.size();
+//}
+
+vector<int> sortedSquares(vector<int>& nums) {
+	int l = 0, r = nums.size() - 1;
+	int k = r;
+	vector<int>ans;
+	while (l <= r)
+	{
+		if (nums[l] * nums[l] >= nums[r] * nums[r]) {
+			ans[k--] = nums[l] * nums[l];
+			l++;
+		}
+		else {
+			ans[k--] = nums[r] * nums[r];
+			r--;
+		}
+	}
+	return ans;
+}
+
+
+
+//int minSubArrayLen(int target, vector<int>& nums) {
+//
+//	int n = nums.size();
+//	int i = j = 0;
+//	int sum = 0;
+//	while (i<n)
+//	{
+//		sum += nums[j];
+//		if (sum < target) j++;
+//	}
+//
+//}
+
+/// <summary>
+/// 
+/// </summary>
+/// 一道动态规划的题目
+bool validPartition(vector<int>& nums) {
+	return  1;
+}
+
+
+/// <summary>
+/// 缺失的第一个正数
+/// </summary>
+int firstMissingPositive(vector<int>& nums) {
+	unordered_map<int, int>map;
+	for (int i = 0; i < nums.size(); i++) {
+		if (nums[i] > 0) {
+			map[nums[i]]++;
+		}
+	}
+	int m = 1;
+	for (auto it = map.begin(); it != map.end(); it++) {
+		if (it->second > 0) m++;
+		else return m;
+	}
+	return m;
+}
+
+//int main() {
+//	vector<int>nums = { 3,4,-1,1 };
+//	int ans = firstMissingPositive(nums);
+//	cout << ans;
+//	return 0;
+//}
+
+
+vector<int> intersection(vector<int>& nums1, vector<int>& nums2) {
+	unordered_set<int>set(nums1.begin(),nums1.end());
+	vector<int>ans;
+
+	for (auto num : nums2) {
+		if (set.count(num) > 0) {
+			ans.push_back(num);
+			set.erase(num);
+		}
+	}
+	return ans;
+}
+
+vector<int> intersection1(vector<int>& nums1, vector<int>& nums2) {
+	unordered_map<int,int>hashset;
+	vector<int>ans;
+	for (auto num : nums1) {
+		hashset[num]++;
+	}
+
+	for (auto num : nums2) {
+		if (hashset[num] > 0) {
+			ans.push_back(num);
+			hashset[num]--;
+		}
+	}
+	return ans;
+}
+
+//int main() {
+//	std::vector<int> nums1 = {1,2,2,2,1 };
+//	std::vector<int> nums2 = { 1,2,2};
+//
+//	std::vector<int> result = intersection(nums1, nums2);
+//
+//	std::cout << "Intersection: ";
+//	for (int num : result) {
+//		std::cout << num << " ";
+//	}
+//	std::cout << std::endl;
+//
+//	return 0;
+//}

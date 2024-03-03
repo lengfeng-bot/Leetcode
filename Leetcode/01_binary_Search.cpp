@@ -59,6 +59,36 @@ int mySqrt(int x) {
 
 }
 
+int mySqrt1(int x) {
+	if (x == 0) return 0;
+	int ans = 1;
+	int left = 1;
+	int right = x;
+	while (left < right) {
+		int mid = left+(right-left)/2;
+		if ((long long)mid * mid <= x) { ans = mid; left = mid + 1; }
+		else right = mid;
+	}
+	return  ans;
+}
+
+bool isPerfectSquare(int num) {
+	if (num == 0 || num == 1) return true;
+	int left = 0;
+	int right = num;             
+	
+	while (left <= right)
+	{	int mid = left + (right - left) / 2;
+		if (mid*mid == num)
+			return true;
+		if (mid * mid < num)
+			left = mid + 1;
+		else
+			right = mid - 1;
+	}
+
+	return -1;
+}
 
 //int main() {
 //
@@ -67,8 +97,8 @@ int mySqrt(int x) {
 //	//int result = search(nums, tar);
 //	//cout << result << endl;
 //
-//	int x = 8;
-//	int result = mySqrt(x);
+//	int x = 2147483647;
+//	int result = mySqrt1(x);
 //	cout << result << endl;
 //
 //}
@@ -114,11 +144,10 @@ int searchplus(vector<int>& nums, int target) {
 
 }
 
-
 //int main(){
-//	vector<int>nums = {1};
-//	int tar = 2;
-//	int result = searchplus(nums, tar);
+//	vector<int>nums = { 4,5,6,7,0,1,2 };
+//	int tar = 0;
+//	int result = search(nums, tar);
 //	cout << result << endl;
 //	return 0;
 //	}
@@ -157,20 +186,20 @@ int binarySearch2(vector<int>& nums, int target) {
 int findPeakElement(vector<int>& nums) {
 	if (nums.size() == 1)return 0;
 
-	int left = 0, right = nums.size()-1;  
-	while (left < right) {						
+	int left = 0, right = nums.size() - 1;
+	while (left < right) {
 		int mid = left + (right - left) / 2;
-		if (nums[mid] >nums[mid+1]) { right = mid; }
-		else if (nums[mid] < nums[mid+1]) { left = mid + 1; }
+		if (nums[mid] > nums[mid + 1]) { right = mid-1; }
+		else if (nums[mid] < nums[mid + 1]) { left = mid + 1; }
 	}
-
 	return left;
-
 }
 
 
+
+
 //int main(){
-//	vector<int>nums = { 2,1 };
+//	vector<int>nums = { 3,2,1};
 //	
 //	int result = findPeakElement(nums);
 //	cout << result << endl;
@@ -197,10 +226,22 @@ int findMin(vector<int>& nums) {
 }
 
 
+int findMin1(vector<int>& nums) {
+	int l = 0, r = nums.size() - 1;
+	while (l<r)
+	{
+		int mid = l + (r - l) / 2;
+		if (nums[l] < nums[r]) return nums[l];
+		else if (nums[mid] >= nums[l]) { l = mid+1;  cout << "区间选择为:[" << l << "," << r << "]" << endl; }
+		else { r = mid; cout << "区间选择为:[" << l << "," << r << "]" << endl; }
+	}
+	return nums[l];
+}
+
 //int main() {
-//	vector<int>nums = { 2,1 };
+//	vector<int>nums = { 1,2,3};
 //
-//	int result = findMin(nums);
+//	int result = findMin2(nums);
 //	cout << result << endl;
 //	return 0;
 //}
@@ -276,12 +317,39 @@ vector<int> searchRange(vector<int>& nums, int target) {
 }
 
 
+/// <summary>
+/// 这个方法更好理解
+/// </summary>
+vector<int> searchRange1(vector<int>& nums, int target) {
+	int n = nums.size();
+	int l = 0, r = n-1;
+	vector<int>ans = { -1,-1 };
+	while (l<r)
+	{
+		int mid = (l + r) >> 1;
+		if (nums[mid] >= target) r = mid;
+		else l = mid + 1;
+	}
+	if (nums[l] == target) ans[0] = l;
+
+	int c = 0, d = n ;
+	while (c < d)
+	{
+		int mid = (c + d) >> 1;
+		if (nums[mid] <= target) c = mid+1;
+		else d = mid;
+	}
+	if (c == 0) ans = {-1,-1};
+	else if (nums[c-1] == target) ans[1] = c-1;
+
+	return ans;
+}
 
 //int main() {
 //
-//	vector<int>nums = { 2,2};
-//	int tar = 2;
-//	vector<int> result = searchRange(nums, tar);
+//	vector<int>nums = { 1};
+//	int tar = 0;
+//	vector<int> result = searchRange1(nums, tar);
 //
 //	cout << result[0]<<" "<<result[1] << endl;
 //
@@ -380,6 +448,98 @@ char nextGreatestLetter(vector<char>& letters, char target) {
 //
 //}
 
-/// <summary>
-/// 寻找旋转排序数组中的最小值
-/// </summary>
+
+
+
+//搜索旋转排序数组2
+//这个和1不一样的点在于可以有重复元素，这样的话，会出现一个问题。如果两个区间的其中一个是不增不减区间(数值都一样),那么剩下的一个区间就没法判断是递增还是非递增了
+//比如说这个 [1,0,1,1,1] 这样的话，0 处既可以是100，也可以是0，所以需要加判断条件
+
+//答案说，对于中间和两边都相等这种情况，我们只能将当前二分区间的左边界加一，右边界减一，然后在新区间上继续二分查找。这尼玛时间复杂度都O(n)了，真垃圾
+bool search(vector<int>& nums, int target) {
+	int n = nums.size();
+	int left = 0, right = n - 1;
+	while (left<=right)
+	{
+		int mid = left + (right- left) / 2;
+		if (nums[mid] == target) return true;
+		//添加的两行，但是没法解决这种情况[1,1,1,1,1,1,1,1,2,1,1],两边都和中间相同，就没法判断哪一边了，看来只检测两头行不通，需要检测所有，
+		// 那这样的话，用二分法都没意义了，O（n）的代码两行就写完了，，，怎么办怎么办？？
+		else if (nums[mid] == nums[right]) { right = mid - 1;  cout << "区间选择为:[" << left << "," << right << "]" << endl; }
+		else if (nums[mid] == nums[left]) { left = mid + 1;  cout << "区间选择为:[" << left << "," << right << "]" << endl; }
+
+		else if (nums[mid] >= nums[right]) {
+			if (nums[mid] == target) return true;
+			else if (nums[left] <= target && target<nums[mid]) right = mid - 1;
+			else left = mid + 1;
+			cout << "区间选择为:[" << left << "," << right << "]" << endl;
+		}
+		else {
+			if (nums[mid] == target) return true;
+			else if (nums[right] >= target && target>nums[mid]) left = mid + 1;
+			else right = mid - 1;
+			cout << "区间选择为:[" << left << "," << right << "]" << endl;
+		}
+
+	}
+	return false;
+		
+
+	
+}
+
+
+int leftbound(vector<int>nums, int target) {
+	int n = nums.size();
+	int l = 0, r = n - 1;
+	while (l<r)
+	{
+		int mid = (l + r) >> 1;
+		if (nums[mid] == target) r = mid;
+		else if (nums[mid] > target) r = mid;
+		else l = mid + 1;
+	}
+	if (nums[l] == target) return l;
+	return -1;
+}
+
+int rightbound(vector<int>nums, int target) {
+	int n = nums.size();
+	int l = 0, r = n-1;
+	while (l < r)
+	{
+		int mid = (l + r) >> 1;
+		if (nums[mid] == target) l = mid+1;
+		else if (nums[mid] < target) l = mid+1;
+		else r = mid;
+	}
+	if (l == 0) return -1;
+	if (l == n-1) return l;
+	return nums[l - 1] == target ? (l - 1) : -1;
+	
+}
+
+
+
+
+int findMin2(vector<int>& nums) {
+	int left = 0, right = nums.size() - 1;
+	while (left < right) {
+		int mid = left + (right - left) / 2;
+
+		if (nums[left] < nums[right]) { return nums[left]; }
+		else  if (nums[mid] > nums[left])left = mid + 1;
+		else left++;
+	}
+
+	return nums[left];
+}
+
+//int main(){
+//	vector<int>nums = {10,10,10,1,10};
+//	int ans = findMin2(nums);
+//	cout << ans;
+//	return 0;
+//}
+
+

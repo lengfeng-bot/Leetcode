@@ -31,12 +31,14 @@ void basic()
 	else {
 		std::cout << "David is not in the map." << std::endl;
 	}
-	// 遍历哈希表
+	// 遍历哈希表方法1
+	for (auto it = myMap.begin(); it != myMap.end(); it++) {
+		std::cout << it->first << "'s age is: " << it->second << std::endl;
+	}
+	// 遍历哈希表方法2
 	for (const auto& pair : myMap) {
 		std::cout << pair.first << "'s age is: " << pair.second << std::endl;
 	}
-
-
 }
 
 //int main()
@@ -573,3 +575,67 @@ bool isValid(string s) {
 		
 
 }
+
+/// <summary>
+/// 有效的字母异位词
+/// </summary>
+bool isAnagram(string s, string t) {
+	unordered_map<char, int>map;
+
+	for (auto a : s) map[a]++;
+
+	for (auto a : t) {
+		if (map[a] > 0) map[a]--;
+		else return false;
+	}
+	for (auto it = map.begin();it!=map.end();it++)
+	{
+		if (it->second > 0) return false;
+	}
+	return true;
+}
+
+
+
+vector<int> findAnagrams(string s, string p) {
+	int sLen = s.size(), pLen = p.size();
+
+	if (sLen < pLen) {
+		return vector<int>();
+	}
+
+	vector<int> ans;
+	vector<int> sCount(26);
+	vector<int> pCount(26);
+	for (int i = 0; i < pLen; ++i) {
+		++sCount[s[i] - 'a'];
+		++pCount[p[i] - 'a'];
+	}
+
+	if (sCount == pCount) {
+		ans.emplace_back(0);
+	}
+	for (int i = 0; i < sLen - pLen; ++i) {
+		--sCount[s[i] - 'a'];
+		++sCount[s[i + pLen] - 'a'];
+
+		if (sCount == pCount) {
+			ans.emplace_back(i + 1);
+		}
+	}
+
+	return ans;
+//int main() {
+//	std::string s = "abab";
+//	std::string p = "ab";
+//
+//	std::vector<int> result = findAnagrams1(s, p);
+//
+//	std::cout << "Anagrams indices: ";
+//	for (int index : result) {
+//		std::cout << index << " ";
+//	}
+//	std::cout << std::endl;
+//
+//	return 0;
+//}
