@@ -3,6 +3,7 @@
 #include<algorithm>
 #include<unordered_map>
 #include<stack>
+#include<queue>
 using namespace std;
 
 
@@ -392,6 +393,38 @@ vector<int> canSeePersonsCount(vector<int>& heights) {
 
 
 
-///双端队列
+/// <summary>
+/// 用栈实现队列
+/// </summary>
+class MyQueue {
+public:
+	MyQueue() {
 
-//优先队列(堆)
+	}
+
+	void push(int x) {
+
+	}
+
+	int pop() {
+
+	}
+
+	int peek() {
+
+	}
+
+	bool empty() {
+
+	}
+};
+
+
+int main() {
+	MyQueue* obj = new MyQueue();
+	obj->push(x);
+	int param_2 = obj->pop();
+	int param_3 = obj->peek();
+	bool param_4 = obj->empty();
+	return 0;
+}

@@ -348,7 +348,7 @@ int magicTower(vector<int>& nums) {
 
 	return sum>0?count:-1;
 }
-}
+
 
 /// <summary>
 /// 先用哈希表统计字母出现的次数，之后从打字母开始排序，oush到ans,每个字母最多可以push Limit次数个。
@@ -474,40 +474,6 @@ int minimumRemoval(vector<int>& beans) {
 
 
 
-/// <summary>
-/// 找到所有字母异位词
-/// </summary>
-vector<int> findAnagrams(string s, string p) {
-
-	int sLen = s.size(), pLen = p.size();
-
-	if (sLen < pLen) {
-		return vector<int>();
-	}
-
-	vector<int> ans;
-	vector<int> sCount(26);
-	vector<int> pCount(26);
-	for (int i = 0; i < pLen; ++i) {
-		++sCount[s[i] - 'a'];
-		++pCount[p[i] - 'a'];
-	}
-
-	if (sCount == pCount) {
-		ans.emplace_back(0);
-	}
-	for (int i = 0; i < sLen - pLen; ++i) {
-		--sCount[s[i] - 'a'];
-		++sCount[s[i + pLen] - 'a'];
-
-		if (sCount == pCount) {
-			ans.emplace_back(i + 1);
-		}
-	}
-
-	return ans;
-
-}
 
 
 /// <summary>

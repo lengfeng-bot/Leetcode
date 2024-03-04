@@ -1073,9 +1073,9 @@ int maxResult1(vector<int>& nums, int k) {
 }
 
 
-int main() {
-	vector<int>nums = { 1,-1,-2,4,-7,3 };
-	int ans = maxResult1(nums, 2);
-	cout << ans << endl;
-	return 0;
-}
+//int main() {
+//	vector<int>nums = { 1,-1,-2,4,-7,3 };
+//	int ans = maxResult1(nums, 2);
+//	cout << ans << endl;
+//	return 0;
+//}

@@ -91,15 +91,27 @@ vector<int> twoSum(std::vector<int>& nums, int target) {
 /// <summary>
 /// 无重复的最长子串的长度
 /// </summary>
-/// <param name="s"></param>
-/// <returns></returns>
 int lengthOfLongestSubstring(string s) {
 	unordered_map<char, int>map;
-	
+	int i =0, j = 0;
+	int maxlen = 0;
+	while (j<s.size())
+	{
+		if (map[s[j]] == 0) { map[s[j]]++; j++; }
+		else { map[s[i]]--; i++; }
 
-	return 0;
-
+		maxlen = max(maxlen, j - i);
+	}
+	return maxlen;
 }
+
+
+
+//int main() {
+//	string s = "abcb"; // 测试用例
+//	cout << "无重复字符的最长子串长度为：" << lengthOfLongestSubstring(s) << endl;
+//	return 0;
+//}
 
 /// <summary>
 /// 罗马数字转整数
@@ -527,32 +539,23 @@ void unorder_set_basic() {
 /// </summary>
 int longestConsecutive(vector<int>& nums) {
 	unordered_set<int>set;
-	for (auto& num : nums)
-		set.insert(num);
-
-	int longestStreak = 0;
-	int currentStreak = 1;
-
+	for (auto num : nums) set.insert(num);
+	int curlen = 1, maxlen = 0;
 	for (auto& num : nums) {
-
-		if (!set.count(num - 1))
-		{
-			int currentNum = num;
-			currentStreak += 1;
-
-			while (set.count(currentNum + 1))
+		if (set.count(num - 1) == 0) {
+			int cur = num;
+			curlen = 1;
+			while (set.count(cur + 1))
 			{
-				currentNum += 1;
-				currentStreak += 1;
+				cur++;
+				curlen++;
 			}
 		}
-		longestStreak = max(longestStreak, currentStreak);
-		
+		maxlen = max(curlen, maxlen);
 	}
-	return longestStreak;
+	return maxlen;
 
 }
-
 
 
 bool isValid(string s) {
@@ -625,6 +628,7 @@ vector<int> findAnagrams(string s, string p) {
 	}
 
 	return ans;
+}
 //int main() {
 //	std::string s = "abab";
 //	std::string p = "ab";
@@ -639,3 +643,61 @@ vector<int> findAnagrams(string s, string p) {
 //
 //	return 0;
 //}
+
+int getSum(int n) {
+	int ans = 0;
+	while (n)
+	{
+		int a = n % 10;
+		ans += a * a;
+		n /= 10;
+	}
+	return ans;
+
+}
+
+/// <summary>
+/// 开心数
+/// </summary>
+bool isHappy(int n) {
+	
+	unordered_set<int>set;
+	int ans = 0;
+	while (1)
+	{
+		ans = getSum(n);
+		if (ans == 1)return true;
+		else if (set.count(ans) > 0) return false;
+		else set.insert(ans);
+		n = ans;
+	}
+	
+}
+
+/// <summary>
+/// 赎金信
+/// </summary>
+bool canConstruct(string ransomNote, string magazine) {
+	int map[26] = {0};
+	for (auto m : magazine) map[m - 'a']++;
+	for (auto r : ransomNote) {
+		if (map[r - 'a'] > 0) map[r - 'a']--;
+		else	return false;
+	}
+	return true;
+}
+
+//int main() {
+//	string ransomNote = "aab";
+//	string magazine = "aabb";
+//
+//	if (canConstruct(ransomNote, magazine)) {
+//		cout << "可以构成赎金信" << endl;
+//	}
+//	else {
+//		cout << "无法构成赎金信" << endl;
+//	}
+//
+//	return 0;
+//}
+
