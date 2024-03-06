@@ -4,6 +4,7 @@
 #include<unordered_map>
 #include<stack>
 #include<queue>
+#include<string>
 using namespace std;
 
 
@@ -29,6 +30,33 @@ string decodeString(string s) {
 	}
 	return ans;
 }
+
+
+/// <summary>
+/// 删除字符串中的所有相邻重复项
+/// </summary>
+/// 这个题目神奇之处在于，如果直接使用栈的话，输出的是反序的，还需要继续处理一下。然后
+/// 我们可以直接把字符串当成一个栈，因为字符串本来就有入栈和出栈类似的接口，这样的话直接拿下！
+string removeDuplicates(string s) {
+	string st;
+	int n = s.size();
+	for (int i = 0; i < n; i++)
+	{
+		if (st.size() && st.back() == s[i])
+		{
+			st.pop_back();
+		}
+		else st += s[i];
+	}
+	return st;
+}
+//int main() {
+//	string S = "abbaca";
+//	cout << "Original string: " << S << endl;
+//	cout << "String after removing duplicates: " << removeDuplicates(S) << endl;
+//
+//	return 0;
+//}
 
 /// 介绍几个单调栈的题目
 /// 
@@ -403,28 +431,149 @@ public:
 	}
 
 	void push(int x) {
-
+		stackin.push(x);
 	}
 
 	int pop() {
-
+		if (stackout.empty())
+		{
+			while (!stackin.empty())
+			{	
+				stackout.push(stackin.top());
+				stackin.pop();
+			}
+			
+		}
+		int ans = stackout.top();
+		stackout.pop();
+		return ans;
 	}
 
 	int peek() {
-
+		int ans = this->pop();
+		stackout.push(ans);
+		return ans;
 	}
 
 	bool empty() {
+		if (stackin.empty() && stackout.empty()) return true;
+		else return false;
+	}
+public:
+	stack<int>stackin;
+	stack<int>stackout;
+};
 
+
+//int main() {
+//	MyQueue* obj = new MyQueue();
+//	obj->push(1);
+//	obj->push(2);
+//	obj->push(3);
+//	obj->pop();
+//	obj->push(4);
+//	obj->pop();
+//	//cout << param_1 << endl;
+//	cout << param_2 << endl;
+//	return 0;
+//}
+
+
+/// <summary>
+/// 用队列实现栈
+/// </summary>
+class MyStack {
+public:
+	queue<int> que;
+	/** Initialize your data structure here. */
+	MyStack() {
+
+	}
+	/** Push element x onto stack. */
+	void push(int x) {
+		que.push(x);
+	}
+	/** Removes the element on top of the stack and returns that element. */
+	int pop() {
+		int size = que.size();
+		size--;
+		while (size--) { // 将队列头部的元素（除了最后一个元素外） 重新添加到队列尾部
+			que.push(que.front());
+			que.pop();
+		}
+		int result = que.front(); // 此时弹出的元素顺序就是栈的顺序了
+		que.pop();
+		return result;
+	}
+
+	/** Get the top element. */
+	int top() {
+		return que.back();
+	}
+
+	/** Returns whether the stack is empty. */
+	bool empty() {
+		return que.empty();
 	}
 };
 
 
+/// <summary>
+/// 检查替换后的词是否有效
+/// </summary>
+/// 
+bool isValid11(string s) {
+	stack<char>st;
+	for (int i = 0; i < s.size(); i++)
+	{	
+		if (!st.empty()) {
+			if (st.top() == 'b' && s[i] == 'c') {
+				st.pop();
+				if (!st.empty()) {
+					if (st.top() == 'a') st.pop();
+					else return false;
+				}
+				else return false;
+			}
+			else st.push(s[i]);
+		}
+		else st.push(s[i]);
+	}
+	return st.empty();
+}
+
+//int main() {
+//	string s = "babcc";
+//	cout << "Is \"" << s << "\" valid? " << (isValid11(s) ? "Yes" : "No") << endl;
+//
+//	return 0;
+//}
+
+/// <summary>
+/// 逆波兰表达式求值
+/// </summary>
+int evalRPN(vector<string>& tokens) {
+	stack<int>stk;
+	
+	for (const string& token : tokens)
+	{
+		if (token == "+" || token == "-" || token == "*" || token == "/") {
+			int num2 = stk.top(); stk.pop();
+			int num1 = stk.top(); stk.pop();
+			if (token == "+") stk.push(num1 + num2);
+			else if (token == "-") stk.push(num1 - num2);
+			else if (token == "*") stk.push(num1 * num2);
+			else if (token == "/") stk.push(num1 / num2);
+		}
+		else stk.push(stoi(token));
+
+	}
+	return stk.top();
+}
+
 int main() {
-	MyQueue* obj = new MyQueue();
-	obj->push(x);
-	int param_2 = obj->pop();
-	int param_3 = obj->peek();
-	bool param_4 = obj->empty();
+	vector<string> tokens = { "2", "1", "+", "3", "*" };
+	cout << "Result: " << evalRPN(tokens) << endl;
+
 	return 0;
 }

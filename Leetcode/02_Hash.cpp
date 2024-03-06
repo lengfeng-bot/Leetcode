@@ -579,6 +579,26 @@ bool isValid(string s) {
 
 }
 
+
+bool isValid1(string s) {
+	if (s.size() % 2 == 1) return false;
+	stack<char> st;
+	for (int i = 0; i < s.size(); i++) {
+		if (s[i] == '(') st.push(')');
+		else if (s[i] == '{') st.push('}');
+		else if (s[i] == '[') st.push(']');
+		else if (st.empty() || st.top() != s[i]) return false;
+		else st.pop();
+	}
+	return st.empty();
+}
+
+//int main() {
+//	string s = "{}[]()";
+//	int ans = isValid1(s);
+//	return 0;
+//}
+
 /// <summary>
 /// 有效的字母异位词
 /// </summary>
