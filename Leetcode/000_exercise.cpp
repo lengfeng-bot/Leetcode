@@ -617,3 +617,18 @@ vector<int> intersection1(vector<int>& nums1, vector<int>& nums2) {
 //
 //	return 0;
 //}
+
+/// <summary>
+/// 找出字符串的可整除数组
+/// </summary>
+vector<int> divisibilityArray(string word, int m) {
+	vector<int>ans;
+	string s = "";
+	for (auto w : word) {
+		s.push_back(w);
+		int a = stoi(s);
+		if (a % m == 0) ans.push_back(1);
+		else  ans.push_back(0);
+	}
+	return ans;
+}
