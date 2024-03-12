@@ -476,14 +476,10 @@ int largestRectangleArea(vector<int>& heights) {
 			int mid = s.top();
 			s.pop();
 			sum = max(sum, (heights[mid] * (i - s.top() - 1)));
-
 		}
 		s.push(i);
 	}
-
-
 	return sum;
-
 }
 //int main() {
 //	vector<int>nums = { 2,1,5,6,2,3 };
@@ -576,3 +572,93 @@ vector<int> canSeePersonsCount(vector<int>& heights) {
 	return res;
 
 }
+
+vector<int> canSeePersonsCount1(vector<int>& heights) {
+	int n = heights.size();
+	stack<int>st;
+	vector<int>ans(n,0);
+	for (int i = 0; i < n; i++)
+	{
+		//遇到下一个更大元素，正常处理
+		while (!st.empty() && heights[i] > heights[st.top()]) {
+
+			ans[st.top()] += 1;
+			st.pop();
+		}
+		//在当前元素和下一个更大元素中间的处理
+		if(!st.empty()) ans[st.top()] += 1;
+
+		st.push(i);
+	}
+	return ans;
+}
+
+//int main() {
+//	vector<int>height = { 10,6,8,5,11,9 };
+//	vector<int>ans = canSeePersonsCount1(height);
+//	for (auto a : ans) cout << a << " ";
+//	return 0;
+//}
+
+vector<int> test(vector<int>& nums) {
+	int n = nums.size();
+	stack<int>st;
+	vector<int>ans(n, -1);
+	for (int i = 0; i < n; i++)
+	//for (int i = n-1; i >=0; i--)
+	{
+		while (!st.empty() && nums[i] > nums[st.top()])
+		{
+			ans[st.top()] = nums[i];
+			st.pop();
+
+		}
+		//if (!st.empty()) { ans[i] = nums[st.top()]; }
+		st.push(i);
+	}
+	return ans;
+}
+
+//int main() {
+//	vector<int>nums = { 1,3,4,2 };
+//	vector<int> ans = test(nums);
+//	for (auto a : ans) cout << a << " ";
+//	return 0;
+//}
+
+
+vector<int> maxSlidingWindow(std::vector<int>& nums, int k) {
+	vector<int> result;
+	deque<int> dq;
+
+	for (int i = 0; i < nums.size(); ++i) {
+		// 删除队列中不在当前窗口范围内的元素
+		while (!dq.empty() && dq.front() < i - k + 1)
+			dq.pop_front();
+
+		// 删除队列中小于当前元素的元素，因为它们不可能是窗口最大值
+		while (!dq.empty() && nums[dq.back()] < nums[i])
+			dq.pop_back();
+
+		dq.push_back(i);
+
+		// 将窗口最大值加入结果集
+		if (i >= k - 1)
+			result.push_back(nums[dq.front()]);
+	}
+
+	return result;
+}
+
+//int main() {
+//	std::vector<int> nums = { 1, 3, -1, -3, 5, 3, 6, 7 };
+//	int k = 3;
+//	std::vector<int> result = maxSlidingWindow(nums, k);
+//
+//	std::cout << "Sliding window maximums: ";
+//	for (int num : result)
+//		std::cout << num << " ";
+//	std::cout << std::endl;
+//
+//	return 0;
+//}

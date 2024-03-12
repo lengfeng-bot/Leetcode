@@ -632,3 +632,58 @@ vector<int> divisibilityArray(string word, int m) {
 	}
 	return ans;
 }
+
+
+
+/// <summary>
+///  找出美丽数组的最小和
+/// </summary>
+/// 这道题如果直接暴力的话，时间复杂度太高，我猜应该用动态规划解答。我的思路是这样的
+/// dp[i][j]代表数组中第i个和第j个元素的和是否为target。
+/// 初始化数组为连续的自然数1，2，3，4.。。如果dp[i][j]==1的话，再接着增加一个自然数，如果为0，继续，直到循环完之后的全为0，这个时候，我们就得到了想要的数组。
+/// 之后统计我们得到的新数组之和。
+/// 
+/// 436 / 575 个通过的测试用例......看了下答案，根本没这么复杂，用的是等差数列求和公式！！！我直接吐血，，
+int minimumPossibleSum1(int n, int target) {
+	vector<vector<int>> dp(2*n, vector<int>(2*n, 0));
+	vector<int>nums;
+	vector<int>wrong;
+	for (int i = 0; i < n; i++)
+	{
+		nums.push_back(i + 1);
+	}
+	int num = n;
+	for (int i = 0; i < num; i++)
+		for (int j = i+1; j < num; j++)
+		{
+			if (nums[i] + nums[j] == target) {
+				dp[i][j] = 1;  num += 1; nums.push_back(num); wrong.push_back(j);
+			}
+			else dp[i][j] = 0;
+		}
+	int sum = 0;
+	for (int i = 0; i < nums.size(); i++) {
+		sum += nums[i];
+	}
+	for (auto w : wrong) sum -= nums[w];
+
+	return  sum;
+
+}
+
+int minimumPossibleSum(int n, int target) {
+	const int mod = 1e9 + 7;
+	int m = target / 2;
+	if (n <= m) {
+		return (long long)(1 + n) * n / 2 % mod;
+	}
+	return ((long long)(1 + m) * m / 2 +
+		((long long)target + target + (n - m) - 1) * (n - m) / 2) % mod;
+}
+//int main() {
+//	int ans = minimumPossibleSum(1, 1);
+//	cout << ans;
+//	return 0;
+//}
+
+

@@ -68,13 +68,14 @@ int countNodes(TreeNode* root) {
 /// </summary>
 int maxDepth(TreeNode* root) {
 
-    while (!root)
+    if (!root)
     {
         return 0;
     }
     return max(maxDepth(root->right), maxDepth(root->left))+1;
 
 }
+
 
 /// <summary>
 /// 计算二叉树的最小深度
