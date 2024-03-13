@@ -55,7 +55,7 @@ vector<int> inorderTraversal(TreeNode* root) {
 /// 计算二叉树的节点个数
 /// </summary>
 int countNodes(TreeNode* root) {
-    while (!root)
+    if (!root)
     {
         return 0;
     }
@@ -350,23 +350,23 @@ vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
 /// </summary>
 /// 
 /// 
-int dfs(TreeNode* node, int& diameter) {
-    if (!node) return 0;
-    int L = dfs(node->left, diameter);
-    int R = dfs(node->right, diameter);
-
-    diameter =max(diameter, L + R);
-    return max(L , R) + 1;
-}
-
-int diameterOfBinaryTree(TreeNode* root) {
-    if (root == nullptr)
-        return 0;
-
-    int diameter = 0;
-    dfs(root, diameter);
-    return diameter;
-}
+//int dfs(TreeNode* node, int& diameter) {
+//    if (!node) return 0;
+//    int L = dfs(node->left, diameter);
+//    int R = dfs(node->right, diameter);
+//
+//    diameter =max(diameter, L + R);
+//    return max(L , R) + 1;
+//}
+//
+//int diameterOfBinaryTree(TreeNode* root) {
+//    if (root == nullptr)
+//        return 0;
+//
+//    int diameter = 0;
+//    dfs(root, diameter);
+//    return diameter;
+//}
 
 
 //int main() {
@@ -548,4 +548,103 @@ vector<int> rightSideView(TreeNode* root) {
     bfs(root, 0, ans);
     return ans;
 
+}
+
+
+
+
+/// <summary>
+/// 完全二叉树节点个数
+/// </summary>
+int countNodes1(TreeNode* root) {
+    if (!root) return 0;
+    TreeNode* l = root->left;
+    TreeNode* r = root->right;
+    int leftdepth = 0, rightdepth = 0;
+    while (l)
+    {
+        l = l->left;
+        leftdepth++;
+    }
+    while (r)
+    {
+        r = r->right;
+        rightdepth++;
+    }
+    if (leftdepth == rightdepth)  return (2 << leftdepth) - 1;
+    return  countNodes(root->left) + countNodes(root->right) + 1;
+}
+
+
+
+/// <summary>
+/// 平衡二叉树
+/// </summary>
+/// 
+int treeHeight(TreeNode* root) {
+    if (!root) return 0;
+    int leftHeight = treeHeight(root->left);
+    if (leftHeight == -1) return -1;
+    int rightHeight = treeHeight(root->right);
+    if (rightHeight == -1) return -1;
+    return abs(leftHeight - rightHeight) > 1 ? -1 : 1 + max(leftHeight, rightHeight);
+}
+
+bool isBalanced(TreeNode* root) {
+    return treeHeight(root) == -1 ? false : true;
+}
+
+
+/// <summary>
+/// 二叉树的所有路径
+/// </summary>
+/// 
+/// 
+//void dfs(TreeNode* root, vector<string>& paths, string cur_path) {
+//
+//    if (root == nullptr) return;
+//
+//    cur_path += to_string(root->val);
+//    
+//    if (root->left == nullptr && root->right == nullptr) {
+//        paths.push_back(cur_path);
+//        return;
+//    }
+//    cur_path += "->";
+//    dfs(root->left, paths, cur_path);
+//    dfs(root->right, paths, cur_path);
+//}
+
+
+//vector<string> binaryTreePaths(TreeNode* root) {
+//    vector<std::string> paths;
+//    string cur_path = "";
+//    dfs(root, paths, cur_path);
+//    return paths;
+//}
+
+
+
+/// <summary>
+/// 路径之和
+/// </summary>
+bool hasPathSum(TreeNode* root, int targetSum) {
+
+}
+
+
+int main() {
+    TreeNode* root = new TreeNode(1);
+    root->left = new TreeNode(2);
+    root->right = new TreeNode(3);
+
+    int targetSum = 4;
+    if (hasPathSum(root, targetSum)) {
+        std::cout << "There exists a root-to-leaf path with sum " << targetSum << std::endl;
+    }
+    else {
+        std::cout << "There does not exist a root-to-leaf path with sum " << targetSum << std::endl;
+    }
+
+    return 0;
 }
