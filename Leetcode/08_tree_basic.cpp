@@ -474,22 +474,22 @@ int findBottomLeftValue1(TreeNode* root) {
 /// 相同深度，最左边，不同深度，最深的最左边
 /// 
 
-void dfs(TreeNode* root, int height, int& curval, int& curheight) {
-    if (root == nullptr) return;
-    height++;
-    dfs(root->left, height, curval, curheight);
-    dfs(root->right, height, curval, curheight);
-    if (height > curheight) {
-        curheight = height;
-        curval = root->val;
-    }
-}
-int findBottomLeftValue(TreeNode* root) {
-    int curval = 0;
-    int curheight = 0;
-    dfs(root, 0, curval, curheight);
-    return curval;
-}
+//void dfs(TreeNode* root, int height, int& curval, int& curheight) {
+//    if (root == nullptr) return;
+//    height++;
+//    dfs(root->left, height, curval, curheight);
+//    dfs(root->right, height, curval, curheight);
+//    if (height > curheight) {
+//        curheight = height;
+//        curval = root->val;
+//    }
+//}
+//int findBottomLeftValue(TreeNode* root) {
+//    int curval = 0;
+//    int curheight = 0;
+//    dfs(root, 0, curval, curheight);
+//    return curval;
+//}
 
 
 
@@ -524,33 +524,6 @@ vector<int> largestValues(TreeNode* root) {
     }
     return layer;
 }
-
-
-/// <summary>
-/// 二叉树的右视图
-/// </summary>
-void bfs(TreeNode* node, int height, vector<int>& nums) {
-    if (node == nullptr) return;
-
-    if (nums.size() == height) {
-        nums.push_back(node->val);
-    }
-
-    height++;
-    bfs(node->right, height, nums);
-    bfs(node->left, height, nums);
-
-}
-
-vector<int> rightSideView(TreeNode* root) {
-    vector<int>ans;
-    if (root == nullptr) return ans; // 根节点为空时直接返回空向量
-    bfs(root, 0, ans);
-    return ans;
-
-}
-
-
 
 
 /// <summary>
@@ -624,12 +597,172 @@ bool isBalanced(TreeNode* root) {
 //}
 
 
+/// <summary>
+/// 二叉树的左视图
+/// </summary>
+/// bfs写法
+//vector<int> rightSideView(TreeNode* root) {
+//    vector<int>ans;
+//    if (root == nullptr)  return ans;
+//    queue<TreeNode*>q;
+//    q.push(root);
+//    while (!q.empty())
+//    {
+//        int size = q.size();
+//        for (int i = 0; i < size; i++)
+//        {
+//            TreeNode* cur = q.front();
+//            q.pop();
+//            if (cur->left)q.push(cur->left);
+//            if (cur->right)q.push(cur->right);
+//            if (i == size - 1) ans.push_back(cur->val);
+//        }
+//
+//    }
+//    return ans;
+//}
+
+//void dfs(TreeNode* root, int depth,vector<int>&ans) {
+//    if (root == nullptr)  return;
+//    if (depth == ans.size()) ans.push_back(root->val);
+//    depth++;
+//    dfs(root->right, depth, ans);
+//    dfs(root->left, depth, ans);
+//}
+//
+//vector<int> rightSideView(TreeNode* root) {
+//    vector<int>ans;
+//    dfs(root, 0, ans);
+//    return ans;
+//
+//}
+
+
+
+//int main() {
+//    TreeNode* root = new TreeNode(1);
+//    root->left = new TreeNode(2);
+//    root->right = new TreeNode(3);
+//    root->left->right = new TreeNode(4);
+//    vector<int>ans = rightSideView(root);
+//
+//    for (auto a : ans) cout << a << " ";
+//    return 0;
+//}
+
+
+
+/// <summary>
+/// 二叉树的所有路径
+/// </summary>
+/// 
+/// 
+//void dfs(TreeNode* root, vector<string>& paths, string cur_path) {
+//
+//    if (root == nullptr) return;
+//
+//    cur_path += to_string(root->val);
+//    
+//    if (root->left == nullptr && root->right == nullptr) {
+//        paths.push_back(cur_path);
+//        return;
+//    }
+//    cur_path += "->";
+//    dfs(root->left, paths, cur_path);
+//    dfs(root->right, paths, cur_path);
+//}
+
+
+//vector<string> binaryTreePaths(TreeNode* root) {
+//    vector<std::string> paths;
+//    string cur_path = "";
+//    dfs(root, paths, cur_path);
+//    return paths;
+//}
+
 
 /// <summary>
 /// 路径之和
 /// </summary>
 bool hasPathSum(TreeNode* root, int targetSum) {
 
+    if (!root) return false;
+
+    if (!root->left && !root->right && targetSum == root->val) return true;
+
+    return hasPathSum(root->left, targetSum - root->val) || hasPathSum(root->right, targetSum - root->val);
+}
+
+
+/// <summary>
+/// 路径之和2
+/// </summary>
+/// 
+//void dfs(TreeNode* root, vector<vector<int>>&paths, vector<int>cur_path, int targetSum) {
+//    if (!root) return;
+//
+//    cur_path.push_back(root->val);
+//
+//    if (!root->left && !root->right) {
+//        if (targetSum == root->val)  paths.push_back(cur_path);
+//    }
+//
+//    dfs(root->left, paths, cur_path, targetSum - root->val);
+//    dfs(root->right, paths, cur_path, targetSum - root->val);
+//    cur_path.pop_back();
+//}
+//
+//
+//vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+//    vector<vector<int>>ans;
+//    vector<int>cur_path;
+//    dfs(root, ans, cur_path, targetSum);
+//    return ans;
+//}
+
+
+//int main() {
+//    TreeNode* root = new TreeNode(1);
+//    root->left = new TreeNode(2);
+//    root->right = new TreeNode(3);
+//    root->left->left = new TreeNode(1);
+//    root->left->right = new TreeNode(5);
+//
+//    int targetSum = 4;
+//    vector<vector<int>>ans = pathSum(root, targetSum);
+//
+//    for (auto an : ans) {
+//        for (auto a : an) cout << a << " ";
+//
+//        cout << endl;
+//    }
+//
+//    return 0;
+//}
+
+/// <summary>
+/// 路径之和3
+/// </summary>
+/// 
+void dfs(TreeNode* root, int& sum, int targetSum, int& num_path) {
+
+    if (!root) return;
+    sum += root->val;
+    if (sum == targetSum) {num_path++; sum = 0;}
+    dfs(root->left, sum, targetSum, num_path);
+    sum = 0;
+    dfs(root->right, sum, targetSum, num_path);
+
+}
+
+
+
+int pathSum3(TreeNode* root, int targetSum) {
+    int num_path = 0;
+    int sum = 0;
+    dfs(root, sum, targetSum, num_path);
+
+    return num_path;
 }
 
 
@@ -637,14 +770,13 @@ int main() {
     TreeNode* root = new TreeNode(1);
     root->left = new TreeNode(2);
     root->right = new TreeNode(3);
+    root->left->left = new TreeNode(1);
+    root->right->right = new TreeNode(4);
 
-    int targetSum = 4;
-    if (hasPathSum(root, targetSum)) {
-        std::cout << "There exists a root-to-leaf path with sum " << targetSum << std::endl;
-    }
-    else {
-        std::cout << "There does not exist a root-to-leaf path with sum " << targetSum << std::endl;
-    }
-
+    int targetSum = 3;
+    int ans = pathSum3(root, targetSum);
+    cout << ans;
     return 0;
+
+
 }

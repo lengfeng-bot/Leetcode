@@ -686,4 +686,38 @@ int minimumPossibleSum(int n, int target) {
 //	return 0;
 //}
 
+/// <summary>
+/// 合并后数组中的最大元素
+/// </summary>
+/// 我的思路是这样的，找到这个数组最后一对单调递增(或者相等)的两个数，然后执行操作。直到数组中没有递增的两个相邻数，此时得到最大值。
+/// 比如说3，5，9我先操作3和5，或者先操作5和9，结果是一样的，但是如果是
+/// 5，7，9 那么先操作5，7 变成12，9，就不行了，所以只能先操作7，9，保证递增。
+/// 下面这个代码有几个示例通不过，是long long 的原因。。。
+int maxArrayValue(vector<int>& nums) {
+
+	for (int i = nums.size()-1; i >0; i--)
+	{
+		if (nums[i] >= nums[i - 1]) {
+			nums[i - 1] += nums[i];
+			int m = 0;
+			while (i+m<nums.size()-1)
+			{
+				nums[i+m] = nums[i + m + 1];
+				m++;
+			}
+			nums.pop_back();
+		}
+	}
+	return nums[0];
+}
+
+
+//int main() {
+//	vector<int>nums = { 5,3,3 };
+//	int ans = maxArrayValue(nums);
+//	cout << ans;
+//	return 0;
+//}
+
+
 
