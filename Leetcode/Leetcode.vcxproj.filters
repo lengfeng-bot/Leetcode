@@ -60,5 +60,8 @@
     <ClCompile Include="000_exercise.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="0000_weekly_com.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -161,33 +161,28 @@ int findMinimumValue(TreeNode* root) {
 /// <summary>
 /// 二叉树中倒数第二小的节点
 /// </summary>
-/// 用到了dfs，不会哇
-int findSecondMinimumValue(TreeNode* root) {
-    if (!root) return -1;
-
-    int min1 = INT_MAX;
-    int min2 = INT_MAX;
-
-    std::function<void(TreeNode*)> dfs = [&](TreeNode* node) {
-        if (!node) return;
-
-        if (node->val < min1) {
-            min2 = min1;
-            min1 = node->val;
-        }
-        else if (node->val > min1 && node->val < min2) {
-            min2 = node->val;
-        }
-
-        dfs(node->left);
-        dfs(node->right);
-        };
-
-    dfs(root);
-
-    return (min2 == INT_MAX) ? -1 : min2;
-
-}
+/// 
+//int answer = -1;
+//void dfs(TreeNode* root, int cur) {
+//    if (!root) return;
+//    if (root->val != cur) {
+//        if (answer == -1) answer = root->val;
+//        else answer = min(answer, root->val);
+//        return;
+//    }
+//    else
+//    {
+//        dfs(root->left, cur);
+//        dfs(root->right, cur);
+//    }
+//}
+//
+//int findSecondMinimumValue(TreeNode* root) {
+//
+//    dfs(root, root->val);
+//    return answer;
+//
+//}
 
 
 
@@ -423,20 +418,20 @@ struct ListNode {
 /// <summary>
 /// 二叉树中的链表
 /// </summary>
-bool dfs(TreeNode* rt, ListNode* head) {
-    // 链表已经全部匹配完，匹配成功
-    if (head == NULL) return true;
-    // 二叉树访问到了空节点，匹配失败
-    if (rt == NULL) return false;
-    // 当前匹配的二叉树上节点的值与链表节点的值不相等，匹配失败
-    if (rt->val != head->val) return false;
-    return dfs(rt->left, head->next) || dfs(rt->right, head->next);
-}
-
-bool isSubPath(ListNode* head, TreeNode* root) {
-     if (root == NULL) return false;
-     return dfs(root, head) || isSubPath(head, root->left) || isSubPath(head, root->right);
-}
+//bool dfs(TreeNode* rt, ListNode* head) {
+//    // 链表已经全部匹配完，匹配成功
+//    if (head == NULL) return true;
+//    // 二叉树访问到了空节点，匹配失败
+//    if (rt == NULL) return false;
+//    // 当前匹配的二叉树上节点的值与链表节点的值不相等，匹配失败
+//    if (rt->val != head->val) return false;
+//    return dfs(rt->left, head->next) || dfs(rt->right, head->next);
+//}
+//
+//bool isSubPath(ListNode* head, TreeNode* root) {
+//     if (root == NULL) return false;
+//     return dfs(root, head) || isSubPath(head, root->left) || isSubPath(head, root->right);
+//}
 
 
 /// <summary>
@@ -496,8 +491,6 @@ int findBottomLeftValue1(TreeNode* root) {
 /// <summary>
 /// 在每个树行中找最大值
 /// </summary>
-/// <param name="root"></param>
-/// <returns></returns>
 vector<int> largestValues(TreeNode* root) {
     if (!root)  return {};
     queue<TreeNode*>q;
@@ -739,44 +732,101 @@ bool hasPathSum(TreeNode* root, int targetSum) {
 //
 //    return 0;
 //}
-
+#include<unordered_map>
 /// <summary>
 /// 路径之和3
 /// </summary>
-/// 
-void dfs(TreeNode* root, int& sum, int targetSum, int& num_path) {
+int totalPaths = 0; // 全局变量，用于存储路径总数
 
-    if (!root) return;
-    sum += root->val;
-    if (sum == targetSum) {num_path++; sum = 0;}
-    dfs(root->left, sum, targetSum, num_path);
-    sum = 0;
-    dfs(root->right, sum, targetSum, num_path);
+void dfs(TreeNode* node, int currentSum, int targetSum, unordered_map<int, int>& prefixSumCount) {
+    if (!node) return;
 
+    // 更新当前路径和
+    currentSum += node->val;
+
+    // 如果找到一条路径和等于targetSum，则更新路径总数
+    if (prefixSumCount.find(currentSum - targetSum) != prefixSumCount.end()) {
+        totalPaths += prefixSumCount[currentSum - targetSum];
+    }
+
+    // 更新哈希表
+    prefixSumCount[currentSum]++;
+
+    // 继续探索左右子树
+    dfs(node->left, currentSum, targetSum, prefixSumCount);
+    dfs(node->right, currentSum, targetSum, prefixSumCount);
+
+    // 回溯，撤销当前节点的路径和
+    prefixSumCount[currentSum]--;
 }
 
 
 
 int pathSum3(TreeNode* root, int targetSum) {
-    int num_path = 0;
-    int sum = 0;
-    dfs(root, sum, targetSum, num_path);
-
-    return num_path;
+    unordered_map<int, int> prefixSumCount;
+    prefixSumCount[0] = 1;
+    dfs(root, 0, targetSum, prefixSumCount);
+    return totalPaths;
 }
 
 
-int main() {
-    TreeNode* root = new TreeNode(1);
-    root->left = new TreeNode(2);
-    root->right = new TreeNode(3);
-    root->left->left = new TreeNode(1);
-    root->right->right = new TreeNode(4);
+//int main() {
+//    TreeNode* root = new TreeNode(1);
+//    root->left = new TreeNode(2);
+//    root->right = new TreeNode(3);
+//    root->left->left = new TreeNode(1);
+//    root->right->right = new TreeNode(4);
+//
+//    int targetSum = 3;
+//    int ans = pathSum3(root, targetSum);
+//    cout << ans;
+//    return 0;
+//
+//
+//}
 
-    int targetSum = 3;
-    int ans = pathSum3(root, targetSum);
-    cout << ans;
-    return 0;
 
 
+
+
+
+
+/// <summary>
+/// 从中序与后序遍历序列构造二叉树
+/// </summary>
+TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+
+    if (inorder.size() == 0) return nullptr;
+    TreeNode* root = new TreeNode(postorder[postorder.size() - 1]);
+    int num = 0;
+
+    for (auto in : inorder) if (in == root->val) break; else num++;
+
+    postorder.pop_back();
+    //cout << num<<endl;
+    vector<int> inorder1(inorder.begin(), inorder.begin() + num);
+
+    vector<int> inorder2(inorder.begin() + num+1, inorder.end());
+    /*for (auto in : inorder1) { cout << in << " "; } cout << endl;
+    for (auto in : inorder2) { cout << in << " "; }*/
+    vector<int> postorder1(postorder.begin(), postorder.begin() + num);
+    vector<int> postorder2(postorder.begin()+num, postorder.end());
+    /*for (auto in : postorder1) { cout << in << " "; }cout << endl;
+    for (auto in : postorder2) { cout << in << " "; }*/
+    root->left = buildTree(inorder1, postorder1);
+    root->right = buildTree(inorder2, postorder2);
+
+    return root;
 }
+
+
+//int main() {
+//    vector<int>inorder = {2,1,3};
+//    vector<int>postorder = { 2,3,1 };
+//    TreeNode* root = buildTree(inorder, postorder);
+//
+//
+//
+//    return 0;
+//
+//}
