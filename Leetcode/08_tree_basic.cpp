@@ -794,39 +794,175 @@ int pathSum3(TreeNode* root, int targetSum) {
 /// <summary>
 /// 从中序与后序遍历序列构造二叉树
 /// </summary>
-TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+//TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+//
+//    if (inorder.size() == 0) return nullptr;
+//    TreeNode* root = new TreeNode(postorder[postorder.size() - 1]);
+//    int num = 0;
+//
+//    for (auto in : inorder) if (in == root->val) break; else num++;
+//
+//    postorder.pop_back();
+//    //cout << num<<endl;
+//    vector<int> inorder1(inorder.begin(), inorder.begin() + num);
+//
+//    vector<int> inorder2(inorder.begin() + num+1, inorder.end());
+//    /*for (auto in : inorder1) { cout << in << " "; } cout << endl;
+//    for (auto in : inorder2) { cout << in << " "; }*/
+//    vector<int> postorder1(postorder.begin(), postorder.begin() + num);
+//    vector<int> postorder2(postorder.begin()+num, postorder.end());
+//    /*for (auto in : postorder1) { cout << in << " "; }cout << endl;
+//    for (auto in : postorder2) { cout << in << " "; }*/
+//    root->left = buildTree(inorder1, postorder1);
+//    root->right = buildTree(inorder2, postorder2);
+//
+//    return root;
+//}
 
-    if (inorder.size() == 0) return nullptr;
-    TreeNode* root = new TreeNode(postorder[postorder.size() - 1]);
-    int num = 0;
 
-    for (auto in : inorder) if (in == root->val) break; else num++;
 
-    postorder.pop_back();
-    //cout << num<<endl;
-    vector<int> inorder1(inorder.begin(), inorder.begin() + num);
-
-    vector<int> inorder2(inorder.begin() + num+1, inorder.end());
-    /*for (auto in : inorder1) { cout << in << " "; } cout << endl;
-    for (auto in : inorder2) { cout << in << " "; }*/
-    vector<int> postorder1(postorder.begin(), postorder.begin() + num);
-    vector<int> postorder2(postorder.begin()+num, postorder.end());
-    /*for (auto in : postorder1) { cout << in << " "; }cout << endl;
-    for (auto in : postorder2) { cout << in << " "; }*/
-    root->left = buildTree(inorder1, postorder1);
-    root->right = buildTree(inorder2, postorder2);
-
-    return root;
-}
+//从前序与中序遍历序列构造二叉树
+//TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+//    if (preorder.size() == 0) return nullptr;
+//    int num = 0;
+//    TreeNode* root = new TreeNode(preorder[0]);
+//    for (auto in : inorder) if (in == root->val) break; else num++;
+//    vector<int> preorder1(preorder.begin()+1, preorder.begin() + num+1);
+//    vector<int> preorder2(preorder.begin() + num+1, preorder.end());
+//
+//    for (auto in : preorder1) { cout << in << " "; } cout << endl;
+//    for (auto in : preorder2) { cout << in << " "; }
+//
+//    vector<int> inorder1(inorder.begin(), inorder.begin() + num);
+//    vector<int> inorder2(inorder.begin() + num + 1, inorder.end());
+//
+//
+//
+//    root->left = buildTree(preorder1, inorder1);
+//    root->right = buildTree(preorder2, inorder2);
+//    return root;
+//}
 
 
 //int main() {
 //    vector<int>inorder = {2,1,3};
-//    vector<int>postorder = { 2,3,1 };
-//    TreeNode* root = buildTree(inorder, postorder);
+//    vector<int>preorder = { 1,2,3 };
+//    TreeNode* root = buildTree(preorder, inorder);
+//    return 0;
+//}
+
+int maxSum = INT_MIN;
+int dfs(TreeNode* root) {
+    if (!root) return 0;
+
+    int left_gain = max(dfs(root->left),0);
+    int right_gain = max(dfs(root->right), 0);
+    int path = root->val + left_gain + right_gain;
+    maxSum = max(path, maxSum);
+    return root->val+max(left_gain,right_gain) ;
+}
+
+
+
+/// <summary>
+/// 二叉树中的最大路径和
+/// </summary>
+int maxPathSum(TreeNode* root) {
+    dfs(root);
+    return maxSum;
+}
+
+
+//int main() {
+//    TreeNode* root = new TreeNode(1);
+//    root->left = new TreeNode(2);
+//    root->right = new TreeNode(3);
+//    root->left->left = new TreeNode(4);
+//    root->right->right = new TreeNode(5);
 //
-//
-//
+//    int ans = maxPathSum(root);
+//    cout << ans;
 //    return 0;
 //
+//
 //}
+
+
+/// <summary>
+/// 二叉搜索树BST
+/// </summary>
+
+
+
+/// <summary>
+/// 二叉搜索树的搜索
+/// </summary>
+TreeNode* searchBST(TreeNode* root, int val) {
+    if (!root || root->val == val) return root;
+    TreeNode* result = nullptr;
+    if (root->val > val) result = searchBST(root->left, val);
+    else if (root->val < val) result = searchBST(root->right, val);
+    return result;
+}
+
+
+/// <summary>
+/// 验证二叉搜索树
+/// </summary>
+
+void dfs(TreeNode* root,vector<int>& ans)
+{
+    if (!root) return;
+    dfs(root->left, ans);
+    ans.push_back(root->val);
+    dfs(root->right, ans);
+}
+
+
+bool isValidBST(TreeNode* root) {
+    vector<int>ans;
+    dfs(root, ans);
+    for (int i = 0; i < ans.size() - 1; i++)
+    {
+        if (ans[i] > ans[i + 1]) return false;
+    }
+    return 1;
+}
+
+//int main() {
+//    TreeNode* root = new TreeNode(3);
+//    root->left = new TreeNode(2);
+//    root->right = new TreeNode(5);
+//    root->left->left = new TreeNode(1);
+//    root->right->right = new TreeNode(6);
+//    cout << isValidBST(root) << endl;
+//    return 0;
+//
+//
+//}
+
+
+//将有序数组转化为二叉搜索树
+//TreeNode* buildTree(vector<int>& nums, int left.int right) {
+//    if (left > right) return nullptr;
+//    int mid = left + (right - left) / 2;
+//    TreeNode* root = new TreeNode(nums[mid]);
+//    root->left = sortedArrayToBST(nums,left,mid-1);
+//    root->right = sortedArrayToBST(nums,mid+1,right);
+//
+//    return root;
+//}
+//
+//
+//TreeNode* sortedArrayToBST(vector<int>& nums) {
+//
+//    return buildTree(nums,0,nums.size()-1)
+//
+//}
+
+/// <summary>
+/// 二叉搜索树中第K小的元素
+/// </summary>
+int kthSmallest(TreeNode* root, int k) {
+
+}
